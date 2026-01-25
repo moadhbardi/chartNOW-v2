@@ -398,6 +398,10 @@ function generateChart() {
   });
 
   onChartGenerated();
+  showNotification(
+  `✅ ${currentChartType.toUpperCase()} Chart: ${selectedVariables.xAxis} vs ${selectedVariables.yAxis.join(", ")}`, 
+  "success"
+);
 }
 
 function prepareSimpleData() {
@@ -626,7 +630,7 @@ function onChartGenerated() {
   setTimeout(updateColorControlsUI, 100);
 }
 
-// ===== RESET CHART =====
+/// ===== RESET CHART =====
 function resetChart() {
   selectedVariables = { xAxis: null, yAxis: [] };
   document.getElementById("xAxisVar").innerHTML =
@@ -638,6 +642,9 @@ function resetChart() {
     chartInstance = null;
   }
   resetColorMap();
+  
+  // ADDED NOTIFICATION
+  showNotification("🔄 Chart has been reset", "info");
 }
 
 // ===== DATA PREVIEW FUNCTIONS =====
