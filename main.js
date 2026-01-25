@@ -1478,3 +1478,43 @@ function updateDashboardButton() {
 document.addEventListener("DOMContentLoaded", function () {
   updateDashboardButton();
 });
+ 
+//drop zone hidder part 
+function hideDropZone() {
+  const dropZone = document.getElementById("dropZone");
+  if (dropZone) {
+    dropZone.style.display = "none";
+    
+    // Also hide the "click to browse" text that's part of dropZone
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) {
+      fileInput.style.display = "none";
+    }
+  }
+}
+
+function processParsedData(results, file) {
+  csvData = results.data;
+  csvHeaders = results.meta.fields;
+
+  console.log("✅ Data loaded:", csvData.length, "rows,", csvHeaders.length, "columns");
+
+  if (typeof initAISystem === "function") {
+    initAISystem(csvData, csvHeaders);
+  }
+
+  document.getElementById("fileName").textContent = file.name;
+  document.getElementById("rowCount").textContent = csvData.length;
+  document.getElementById("colCount").textContent = csvHeaders.length;
+  document.getElementById("fileInfo").style.display = "block";
+
+  // ADD THIS LINE - Hide the drop zone
+  hideDropZone();
+
+  updateVariablesList();
+  updateGroupByDropdown();
+  showDataPreview();
+  showQuickStats();
+
+  console.log("🎉 Data processing complete!");
+}
