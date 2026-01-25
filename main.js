@@ -9,13 +9,20 @@ let selectedVariables = { xAxis: null, yAxis: [] };
 
 // GLOBAL COLORS ARRAY
 const chartColors = [
-  "rgba(255, 99, 132, 0.7)", // Pink
-  "rgba(54, 162, 235, 0.7)", // Blue
-  "rgba(255, 206, 86, 0.7)", // Yellow
-  "rgba(75, 192, 192, 0.7)", // Teal
-  "rgba(153, 102, 255, 0.7)", // Purple
-  "rgba(255, 159, 64, 0.7)", // Orange
-  "rgba(201, 203, 207, 0.7)", // Gray
+  "rgba(200, 50, 86, 0.85)",       // Darker Pink/Red
+  "rgba(30, 120, 200, 0.85)",      // Darker Blue
+  "rgba(220, 165, 40, 0.85)",      // Darker Yellow/Gold
+  "rgba(40, 150, 150, 0.85)",      // Darker Teal
+  "rgba(120, 70, 220, 0.85)",      // Darker Purple
+  "rgba(220, 100, 30, 0.85)",      // Darker Orange
+  "rgba(140, 145, 150, 0.85)",     // Darker Gray
+  
+  // 5 NEW DARKER COLORS:
+  "rgba(180, 40, 60, 0.85)",       // Dark Crimson
+  "rgba(20, 100, 180, 0.85)",      // Deep Navy Blue
+  "rgba(50, 180, 100, 0.85)",      // Forest Green
+  "rgba(170, 80, 180, 0.85)",      // Dark Magenta
+  "rgba(210, 140, 40, 0.85)"       // Dark Amber
 ];
 
 // Color management
