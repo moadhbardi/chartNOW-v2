@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSV Dashboard Builder with AI</title>
+
+    <!-- External libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Our separated CSS file -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ===== PROFESSIONAL NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <!-- Logo & Brand -->
+        <a href="index.html" class="navbar-brand">
+          <img src="chartnow_logo_style5v2.png" alt="Your Logo" />
+          <span class="brand-name"><span class="ai-text"></span></span>
+        </a>
+
+        <!-- Navigation Links -->
+        <div class="navbar-links">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+          <a href="#docs" class="nav-link">Docs</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+
+        <!-- User Section -->
+        <div class="navbar-user">
+          <div class="user-avatar">👤</div>
+          <div class="user-name">Guest</div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="hero-text">
+      <h1 class="hero-headline">Your Spreadsheet, Instantly Visual.</h1>
+      <p class="hero-tagline">
+        Let AI find the charts, or build them yourself. Instant dashboards from
+        your data.
+      </p>
+    </div>
+
+    <div class="container">
+      <!-- Left Sidebar: Data & Variables -->
+      <div class="sidebar">
+        <h3>📁 Data Source</h3>
+
+        <div class="drop-zone" id="dropZone">
+          <p>📂 Drag & Drop CSV or Excel file here</p>
+          <p><small>or click to browse</small></p>
+          <input
+            type="file"
+            id="fileInput"
+            accept=".csv,.xls,.xlsx,.xlsm"
+            style="display: none"
+          />
+        </div>
+
+        <div id="fileInfo" style="display: none">
+          <p><strong>File:</strong> <span id="fileName"></span></p>
+          <p><strong>Rows:</strong> <span id="rowCount"></span></p>
+          <p><strong>Columns:</strong> <span id="colCount"></span></p>
+        </div>
+
+        <h3>📊 Variables (Drag to use)</h3>
+        <div class="variables-list" id="variablesList">
+          <p style="color: #666; text-align: center">
+            Upload a CSV or Excel file to see variables
+          </p>
+        </div>
+
+        <h3>🧮 Quick Stats</h3>
+        <div id="quickStats"></div>
+
+        <!-- AI SECTION -->
+        <div class="ai-section">
+          <h3>🤖 AI Chart Assistant</h3>
+          <textarea
+            id="ai-prompt"
+            placeholder="Example: Create a pie chart of sales by region"
+            rows="3"
+          ></textarea>
+          <button onclick="generateFromAI()">✨ Generate with AI</button>
+          <div id="ai-status"></div>
+          <div class="ai-examples">
+            <strong>Example:</strong><br />
+            • "pie chart of sales by product"<br />
+            • "line chart showing revenue trend"<br />
+            • "bar chart comparing profit by region"
+          </div>
+        </div>
+        <!-- Modern Export Panel -->
+        <div class="export-panel">
+          <div class="panel-header">
+            <h3><span class="export-icon">📤</span> Export & Share</h3>
+            <p class="panel-subtitle">Download visuals or share insights</p>
+          </div>
+
+          <div class="export-options-grid">
+            <div class="export-option primary" onclick="exportAsPNG()">
+              <div class="export-icon">🖼️</div>
+              <div class="export-details">
+                <strong>High-Res Image</strong>
+                <span>PNG (300 DPI)</span>
+              </div>
+              <div class="export-badge">Most Used</div>
+            </div>
+
+            <div class="export-option" onclick="exportAsPDF()">
+              <div class="export-icon">📄</div>
+              <div class="export-details">
+                <strong>PDF Report</strong>
+                <span>With title & description</span>
+              </div>
+            </div>
+
+            <div class="export-option" onclick="exportAsSVG()">
+              <div class="export-icon">✨</div>
+              <div class="export-details">
+                <strong>Vector Format</strong>
+                <span>SVG for editing</span>
+              </div>
+            </div>
+
+            <div class="export-option" onclick="exportAsCSV()">
+              <div class="export-icon">📊</div>
+              <div class="export-details">
+                <strong>Export Data</strong>
+                <span>CSV with all data</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="export-settings">
+            <div class="settings-header">
+              <span>⚙️ Quick Settings</span>
+            </div>
+            <div class="settings-grid">
+              <div class="setting-item">
+                <label>Size</label>
+                <select id="exportSize">
+                  <option value="1.0">Original</option>
+                  <option value="1.5">Large (1.5x)</option>
+                  <option value="2.0">Extra Large (2x)</option>
+                </select>
+              </div>
+              <div class="setting-item">
+                <label>Include</label>
+                <div class="checkbox-group">
+                  <label
+                    ><input type="checkbox" id="includeTitle" checked />
+                    Title</label
+                  >
+                  <label
+                    ><input type="checkbox" id="includeLegend" checked />
+                    Legend</label
+                  >
+                </div>
+              </div>
+              <!-- In chart controls section: -->
+              <button onclick="addToDashboard()" class="add-to-dashboard-btn">
+                💾 Save to Dashboard
+              </button>
+
+              <!-- In sidebar section: -->
+              <a href="dashboard.html" class="dashboard-btn" target="_blank">
+                📊 View Dashboard (<span id="dashboard-count">0</span> charts)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Chart Controls -->
+        <div class="chart-controls">
+          <h3>⚙️ Chart Configuration</h3>
+
+          <div class="chart-type-buttons">
+            <button class="chart-btn" onclick="setChartType('bar')">
+              📊 Bar
+            </button>
+            <button class="chart-btn" onclick="setChartType('line')">
+              📈 Line
+            </button>
+            <button class="chart-btn" onclick="setChartType('pie')">
+              🥧 Pie
+            </button>
+            <button class="chart-btn" onclick="setChartType('doughnut')">
+              🍩 Donut
+            </button>
+            <button class="chart-btn" onclick="setChartType('scatter')">
+              • Scatter
+            </button>
+            <button class="chart-btn" onclick="setChartType('radar')">
+              📡 Radar
+            </button>
+            <button
+              class="chart-btn"
+              onclick="setChartType('area')"
+              title="Area Chart"
+            >
+              ▀ Area
+            </button>
+            <button
+              class="chart-btn"
+              onclick="setChartType('bubble')"
+              title="Bubble Chart"
+            >
+              🫧 Bubble
+            </button>
+            <button
+              class="chart-btn"
+              onclick="setChartType('polarArea')"
+              title="Polar Area Chart"
+            >
+              🔄 Polar
+            </button>
+            <button
+              class="chart-btn pro"
+              onclick="setChartType('treemap')"
+              title="Treemap"
+            >
+              ⊞ Treemap
+            </button>
+            <button
+              class="chart-btn pro"
+              onclick="setChartType('heatmap')"
+              title="Heatmap"
+            >
+              🧱 Heatmap
+            </button>
+            <button
+              class="chart-btn pro"
+              onclick="setChartType('boxplot')"
+              title="Box Plot"
+            >
+              📦 Box Plot
+            </button>
+            <button
+              class="chart-btn"
+              onclick="setChartType('map')"
+              title="Geographic Map"
+            >
+              🗺️ Map
+            </button>
+            <!-- KPI CARD BUTTON (ADDED HERE) -->
+            <button
+              class="chart-btn"
+              onclick="setChartType('kpi')"
+              title="KPI Card"
+            >
+              🎯 KPI Card
+            </button>
+          </div>
+
+          <!-- Map Controls (Hidden by default) -->
+          <div id="mapControls" class="map-controls" style="display: none">
+            <h4>🗺️ Map Configuration</h4>
+            <div class="control-group">
+              <label>Map Type</label>
+              <div class="map-type-buttons">
+                <button
+                  class="map-type-btn active"
+                  data-type="choropleth"
+                  onclick="setMapType('choropleth')"
+                >
+                  <div class="map-icon">🟦</div>
+                  <span>Choropleth</span>
+                  <small>Color-coded regions</small>
+                </button>
+                <button
+                  class="map-type-btn"
+                  data-type="bubble"
+                  onclick="setMapType('bubble')"
+                >
+                  <div class="map-icon">🫧</div>
+                  <span>Bubble</span>
+                  <small>Proportional circles</small>
+                </button>
+                <button
+                  class="map-type-btn"
+                  data-type="point"
+                  onclick="setMapType('point')"
+                >
+                  <div class="map-icon">📍</div>
+                  <span>Point</span>
+                  <small>Exact locations</small>
+                </button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label>Location Data</label>
+              <select id="mapLocationColumn">
+                <option value="">Select location column...</option>
+              </select>
+              <label>Value Data (for coloring/sizing)</label>
+              <select id="mapValueColumn">
+                <option value="">Select numeric column...</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label>Color Theme</label>
+              <select id="mapColorScheme">
+                <option value="Blues">Blues</option>
+                <option value="Reds">Reds</option>
+                <option value="Greens">Greens</option>
+                <option value="Viridis">Viridis (Colorblind-friendly)</option>
+                <option value="Custom">Custom Palette</option>
+              </select>
+              <label>Base Map Style</label>
+              <div class="basemap-buttons">
+                <button
+                  class="basemap-btn active"
+                  data-style="light"
+                  onclick="setBasemapStyle('light')"
+                >
+                  Light
+                </button>
+                <button
+                  class="basemap-btn"
+                  data-style="dark"
+                  onclick="setBasemapStyle('dark')"
+                >
+                  Dark
+                </button>
+                <button
+                  class="basemap-btn"
+                  data-style="satellite"
+                  onclick="setBasemapStyle('satellite')"
+                >
+                  Satellite
+                </button>
+                <button
+                  class="basemap-btn"
+                  data-style="streets"
+                  onclick="setBasemapStyle('streets')"
+                >
+                  Streets
+                </button>
+              </div>
+            </div>
+
+            <div class="map-actions">
+              <button onclick="generateMap()" class="generate-map-btn">
+                Generate Map
+              </button>
+              <button onclick="resetMap()" class="secondary-btn">Reset</button>
+            </div>
+          </div>
+
+          <!-- KPI Card Controls (Hidden by default) - ADDED HERE -->
+          <div id="kpiControls" class="map-controls" style="display: none">
+            <h4>🎯 KPI Card Configuration</h4>
+
+            <div class="control-group">
+              <label>Measure (Value to track):</label>
+              <select id="kpiValueColumn">
+                <option value="">Select numeric column...</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label>Calculation:</label>
+              <select id="kpiCalculation">
+                <option value="sum">Sum Total</option>
+                <option value="average">Average</option>
+                <option value="count">Count</option>
+                <option value="min">Minimum</option>
+                <option value="max">Maximum</option>
+                <option value="latest">Latest Value</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label>Card Title:</label>
+              <input
+                type="text"
+                id="kpiTitle"
+                placeholder="e.g., Total Sales"
+                style="width: 100%; padding: 8px"
+              />
+            </div>
+
+            <div class="map-actions">
+              <button onclick="generateKPICard()" class="generate-map-btn">
+                🎯 Generate KPI Card
+              </button>
+              <button onclick="resetKPICard()" class="secondary-btn">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Regular Chart Controls -->
+          <div id="chartControls">
+            <div class="control-group">
+              <h4>X-Axis (Categories)</h4>
+              <div
+                class="drop-zone small"
+                id="xAxisDrop"
+                ondragover="allowDrop(event)"
+                ondrop="dropInXAxis(event)"
+              >
+                <p>Drag variable here for X-axis</p>
+                <div id="xAxisVar"></div>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <h4>Y-Axis (Values)</h4>
+              <div
+                class="drop-zone small"
+                id="yAxisDrop"
+                ondragover="allowDrop(event)"
+                ondrop="dropInYAxis(event)"
+              >
+                <p>Drag numeric variables here for Y-axis</p>
+                <div id="yAxisVars"></div>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <h4>Filters & Groups</h4>
+              <label>Group By (for aggregation):</label>
+              <select id="groupBy">
+                <option value="">None</option>
+              </select>
+              <label>Aggregation:</label>
+              <select id="aggregation">
+                <option value="sum">Sum</option>
+                <option value="average">Average</option>
+                <option value="count">Count</option>
+                <option value="min">Min</option>
+                <option value="max">Max</option>
+              </select>
+            </div>
+
+            <button onclick="generateChart()">🚀 Generate Chart</button>
+            <button onclick="resetChart()" style="background: #6c757d">
+              🔄 Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Color Controls Section -->
+        <div class="color-controls">
+          <h4>🎨 Chart Colors</h4>
+          <div class="color-presets">
+            <strong>Quick Themes:</strong>
+            <div class="preset-buttons">
+              <button onclick="applyColorPreset('default')" class="preset-btn">
+                <div
+                  class="color-strip"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      #ff6b6b,
+                      #4ecdc4,
+                      #ffd166,
+                      #06d6a0,
+                      #118ab2,
+                      #ef476f,
+                      #7209b7,
+                      #faa307,
+                      #9b5de5,
+                      #00bbf9,
+                      #00f5d4,
+                      #ff97b7
+                    );
+                  "
+                ></div>
+                Default
+              </button>
+              <button onclick="applyColorPreset('pastel')" class="preset-btn">
+                <div
+                  class="color-strip"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      #ffb6c1,
+                      #87ceeb,
+                      #98fb98,
+                      #dda0dd,
+                      #ffd700,
+                      #ffa07a,
+                      #afeeee,
+                      #f0e68c,
+                      #d8bfd8,
+                      #b0e0e6,
+                      #fffacd,
+                      #e6e6fa
+                    );
+                  "
+                ></div>
+                Pastel
+              </button>
+              <button onclick="applyColorPreset('vibrant')" class="preset-btn">
+                <div
+                  class="color-strip"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      #ff3860,
+                      #ffdd57,
+                      #23d160,
+                      #3273dc,
+                      #ff470f,
+                      #b86bff,
+                      #00d1b2,
+                      #ff8c00,
+                      #7957d5,
+                      #00a6fb,
+                      #ff2e8b,
+                      #00cc66
+                    );
+                  "
+                ></div>
+                Vibrant
+              </button>
+            </div>
+          </div>
+
+          <div class="custom-colors-section">
+            <strong>Custom Colors:</strong>
+            <div id="datasetColors">
+              <p style="color: #666; font-style: italic">
+                Generate a chart first to customize colors
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Display -->
+        <div class="chart-container">
+          <canvas id="myChart"></canvas>
+        </div>
+
+        <!-- Data Preview -->
+        <div class="data-preview">
+          <h3>📋 Data Preview</h3>
+          <div id="dataTable"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Our separated JavaScript files -->
+    <script src="main.js" defer></script>
+    <script src="ai_integ.js" defer></script>
+    <script src="map-system.js" defer></script>
+  </body>
+</html>

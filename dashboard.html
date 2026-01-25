@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard - Data Visualization SaaS</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Leaflet for maps -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </head>
+  <body class="dashboard-page">
+    <!-- ===== PROFESSIONAL NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <!-- Logo & Brand -->
+        <a href="index.html" class="navbar-brand">
+          <img src="chartnow_logo_style5v2.png" alt="Your Logo" />
+          <span class="brand-name"><span class="ai-text"></span></span>
+        </a>
+
+        <!-- Navigation Links -->
+        <div class="navbar-links">
+          <a href="index.html" class="nav-link">Create Charts</a>
+          <a href="dashboard.html" class="nav-link active">Dashboard</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+          <a href="#docs" class="nav-link">Docs</a>
+        </div>
+
+        <!-- User Section -->
+        <div class="navbar-user">
+          <div class="user-avatar">👤</div>
+          <div class="user-name">Guest</div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="dashboard-header">
+        <div class="header-left">
+          <h1>📊 My Dashboard</h1>
+          <div class="data-source">
+            Data source: <span id="dataSourceInfo"></span>
+            • <span id="chartCount">0</span> charts
+          </div>
+        </div>
+        
+        <div class="header-actions compact">
+            <button onclick="smartExport()" class="smart-export-btn">
+                🚀 Smart Export
+              </button>
+          <div class="export-dropdown">
+            <button class="export-toggle">📤 Export</button>
+            <div class="dropdown-menu">
+              <button onclick="exportAsPNG()">🖼️ PNG Image</button>
+              <button onclick="exportAsPDF()">📄 PDF Report</button>
+              <button onclick="exportAsJSON()">📊 JSON Data</button>
+            </div>
+          </div>
+          <button onclick="clearDashboard()" class="icon-btn" title="Clear all">🗑️</button>
+          <a href="index.html" class="icon-btn" title="Back to editor">←</a>
+        </div>
+      </div>
+
+      <div id="dashboardGrid" class="dashboard-grid">
+        <div class="empty-state">
+          <div class="empty-icon">📊</div>
+          <h3>Your dashboard is empty</h3>
+          <p>
+            Go back to the editor, create charts, and click "Add to Dashboard"
+            to see them here.
+          </p>
+          <a
+            href="index.html"
+            class="action-btn export-btn"
+            style="text-decoration: none"
+          >
+            🎨 Go Create Charts
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="dashboard_js.js"></script>
+    <script src="map-system.js"></script>
+  </body>
+</html>
