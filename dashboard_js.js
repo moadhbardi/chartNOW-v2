@@ -2,7 +2,7 @@ console.log("✅ dashboard_js.js loaded");
 console.log("🗺️ Leaflet available?", typeof L !== "undefined");
 
 // dashboard.js - Supports multiple charts
-document.addEventListenerhhhhhhhh("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   console.log("📊 Dashboard loading...");
 
   // Load ALL saved charts (array)
