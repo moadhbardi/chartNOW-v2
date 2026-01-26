@@ -7,11 +7,11 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<!-- Leaflet for maps -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
   <body class="dashboard-page">
     <!-- ===== PROFESSIONAL NAVBAR ===== -->
@@ -39,19 +39,31 @@
       </div>
     </nav>
 
-    <div class="dashboard-header">
+    <!-- ===== DASHBOARD ZONE (WRAP EVERYTHING HERE) ===== -->
+    <div id="dashboardZone">
+      <div class="dashboard-header">
         <div class="header-left">
           <h1>📊 My Dashboard</h1>
           <div class="data-source">
-            Data source: <span id="dataSourceInfo"></span>
-            • <span id="chartCount">0</span> charts
+            Data source: <span id="dataSourceInfo"></span> •
+            <span id="chartCount">0</span> charts
           </div>
         </div>
-        
+
         <div class="header-actions compact">
-            <button onclick="smartExport()" class="smart-export-btn">
-                🚀 Smart Export
-              </button>
+          <!-- Theme toggle is INSIDE dashboardZone -->
+          <button
+            onclick="toggleDashboardTheme()"
+            class="theme-toggle-btn"
+            id="dashboardThemeToggle"
+          >
+            🌙 Dark Mode
+          </button>
+
+          <button onclick="smartExport()" class="smart-export-btn">
+            🚀 Smart Export
+          </button>
+
           <div class="export-dropdown">
             <button class="export-toggle">📤 Export</button>
             <div class="dropdown-menu">
@@ -60,7 +72,10 @@
               <button onclick="exportAsJSON()">📊 JSON Data</button>
             </div>
           </div>
-          <button onclick="clearDashboard()" class="icon-btn" title="Clear all">🗑️</button>
+
+          <button onclick="clearDashboard()" class="icon-btn" title="Clear all">
+            🗑️
+          </button>
           <a href="index.html" class="icon-btn" title="Back to editor">←</a>
         </div>
       </div>
@@ -83,6 +98,7 @@
         </div>
       </div>
     </div>
+    <!-- ===== END OF DASHBOARD ZONE ===== -->
 
     <script src="dashboard_js.js"></script>
     <script src="map-system.js"></script>

@@ -906,3 +906,47 @@ function formatKPIValueForDashboard(value, calculation) {
     })}`;
   }
 }
+/// ===== DASHBOARD-ONLY THEME MANAGEMENT =====
+
+// Toggle theme for dashboard zone only
+function toggleDashboardTheme() {
+  const dashboardZone = document.getElementById("dashboardZone");
+  const themeToggle = document.getElementById("dashboardThemeToggle");
+  const isDark = dashboardZone.classList.toggle("dark-theme");
+
+  // Update button text
+  themeToggle.innerHTML = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  themeToggle.title = isDark ? "Switch to light mode" : "Switch to dark mode";
+
+  // Save preference (only for dashboard)
+  localStorage.setItem("dashboardTheme", isDark ? "dark" : "light");
+
+  console.log(`Dashboard theme: ${isDark ? "dark" : "light"}`);
+}
+
+// Apply saved theme on page load
+function applyDashboardTheme() {
+  const savedTheme = localStorage.getItem("dashboardTheme") || "light";
+  const dashboardZone = document.getElementById("dashboardZone");
+  const themeToggle = document.getElementById("dashboardThemeToggle");
+
+  if (savedTheme === "dark") {
+    dashboardZone.classList.add("dark-theme");
+    themeToggle.innerHTML = "☀️ Light Mode";
+  } else {
+    themeToggle.innerHTML = "🌙 Dark Mode";
+  }
+}
+
+// Initialize dashboard theme on load
+document.addEventListener("DOMContentLoaded", function () {
+  applyDashboardTheme();
+
+  // Optional: Auto-detect system preference
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  if (prefersDark.matches && !localStorage.getItem("dashboardTheme")) {
+    // Auto-apply dark mode if user hasn't set preference
+    document.getElementById("dashboardZone").classList.add("dark-theme");
+    document.getElementById("dashboardThemeToggle").innerHTML = "☀️ Light Mode";
+  }
+});

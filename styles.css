@@ -47,6 +47,7 @@
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     min-height: 400px;
+    size: 50%;
   }
   
   .data-preview {
@@ -1614,4 +1615,231 @@ p {
 .kpi-subtitle {
   font-size: 0.9rem;
   color: #888;
+}
+/* ===== DASHBOARD ZONE THEME ===== */
+#dashboardZone {
+  --dashboard-bg-primary: #ffffff;
+  --dashboard-bg-secondary: #f8fafc;
+  --dashboard-bg-card: #ffffff;
+  --dashboard-text-primary: #1e293b;
+  --dashboard-text-secondary: #64748b;
+  --dashboard-border-color: #e2e8f0;
+  --dashboard-shadow-color: rgba(0, 0, 0, 0.1);
+  --dashboard-hover-bg: #f1f5f9;
+
+  
+  background: var(--dashboard-bg-primary);
+  color: var(--dashboard-text-primary);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme Variables */
+#dashboardZone.dark-theme {
+  --dashboard-bg-primary: #0f172a;
+  --dashboard-bg-secondary: #1e293b;
+  --dashboard-bg-card: #334155;
+  --dashboard-text-primary: #f1f5f9;
+  --dashboard-text-secondary: #cbd5e1;
+  --dashboard-border-color: #475569;
+  --dashboard-shadow-color: rgba(0, 0, 0, 0.3);
+  --dashboard-hover-bg: #475569;
+}
+
+/* Apply theme variables ONLY to dashboard elements */
+.dashboard-header {
+  background: var(--dashboard-bg-secondary);
+  border-bottom: 1px solid var(--dashboard-border-color);
+  color: var(--dashboard-text-primary);
+}
+
+.chart-card {
+  background: var(--dashboard-bg-card);
+  border: 1px solid var(--dashboard-border-color);
+  color: var(--dashboard-text-primary);
+  box-shadow: 0 4px 6px var(--dashboard-shadow-color);
+}
+
+.chart-footer {
+  background: var(--dashboard-bg-secondary);
+  border-top: 1px solid var(--dashboard-border-color);
+  color: var(--dashboard-text-secondary);
+}
+
+.empty-state {
+  background: var(--dashboard-bg-card);
+  color: var(--dashboard-text-secondary);
+}
+
+/* Theme Toggle Button - INSIDE dashboard */
+#dashboardZone .theme-toggle-btn {
+  background: var(--dashboard-bg-secondary);
+  color: var(--dashboard-text-primary);
+  border: 1px solid var(--dashboard-border-color);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+#dashboardZone .theme-toggle-btn:hover {
+  background: var(--dashboard-hover-bg);
+  transform: translateY(-1px);
+}
+
+/* Fix chart colors in dark mode */
+#dashboardZone.dark-theme canvas {
+  filter: brightness(0.9) contrast(1.1);
+}
+
+/* Specific text colors for dashboard only */
+#dashboardZone .chart-title {
+  color: var(--dashboard-text-primary);
+}
+
+#dashboardZone .chart-footer span {
+  color: var(--dashboard-text-secondary);
+}
+
+/* Clean Minimal Button Style */
+.header-actions.compact {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* All buttons same clean style */
+.header-actions button,
+.header-actions .icon-btn {
+  padding: 10px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hover effect */
+.header-actions button:hover,
+.header-actions .icon-btn:hover {
+  border-color: #667eea;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Specific colors */
+.theme-toggle-btn {
+  background: #f7fafc;
+  border-color: #cbd5e1;
+}
+
+.smart-export-btn {
+  background: #ebf8ff;
+  border-color: #90cdf4;
+  color: #f6f9fc;
+}
+
+/* Export dropdown */
+.export-dropdown {
+  position: relative;
+}
+
+.export-toggle {
+  background: #f0fff4;
+  border-color: #9ae6b4;
+  color: #276749;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px;
+  display: none;
+  min-width: 160px;
+  margin-top: 5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.export-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* ===== ULTRA-COMPACT HEADER ===== */
+.dashboard-header {
+  padding: 12px 20px;
+  min-height: 60px;
+  margin-bottom: 15px;
+}
+
+.header-left h1 {
+  font-size: 1.3rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-left .data-source {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Ultra-compact buttons */
+.header-actions.compact {
+  gap: 6px;
+}
+
+.header-actions .theme-toggle-btn,
+.header-actions .smart-export-btn,
+.header-actions .export-dropdown .export-toggle,
+.header-actions .icon-btn {
+  padding: 6px 12px;
+  min-height: 32px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* Hide button text, show only icons on small screens */
+@media (max-width: 640px) {
+  .theme-toggle-btn span,
+  .smart-export-btn span,
+  .export-toggle span {
+    display: none;
+  }
+  
+  .theme-toggle-btn,
+  .smart-export-btn,
+  .export-dropdown .export-toggle {
+    padding: 6px 10px;
+    min-width: 36px;
+    justify-content: center;
+  }
+  
+  .theme-toggle-btn::after {
+    content: "🌙";
+    font-size: 14px;
+  }
+  
+  .smart-export-btn::after {
+    content: "🚀";
+    font-size: 14px;
+  }
+  
+  .export-dropdown .export-toggle::after {
+    content: "📤";
+    font-size: 14px;
+  }
 }
