@@ -950,3 +950,68 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("dashboardThemeToggle").innerHTML = "☀️ Light Mode";
   }
 });
+// Add to dashboard_js.js - KPI Dark Theme Fix
+function updateKPIColorsForTheme(isDark) {
+  const kpiCards = document.querySelectorAll(".kpi-card");
+
+  kpiCards.forEach((card) => {
+    if (isDark) {
+      // Dark theme colors
+      card.style.backgroundColor = "#334155";
+      card.style.color = "#f1f5f9";
+
+      // Update KPI value color
+      const valueElement = card.querySelector(".kpi-value");
+      if (valueElement) {
+        valueElement.style.color = "#ffffff";
+      }
+
+      // Update subtitle color
+      const subtitle = card.querySelector(".kpi-subtitle");
+      if (subtitle) {
+        subtitle.style.color = "#cbd5e1";
+      }
+
+      // Update stats text
+      const stats = card.querySelectorAll("div");
+      stats.forEach((div) => {
+        if (
+          div.style.color === "rgb(102, 102, 102)" ||
+          div.textContent.includes("records") ||
+          div.textContent.includes("data")
+        ) {
+          div.style.color = "#94a3b8";
+        }
+      });
+    } else {
+      // Light theme colors (restore defaults)
+      card.style.backgroundColor = "";
+      card.style.color = "";
+
+      const valueElement = card.querySelector(".kpi-value");
+      if (valueElement) valueElement.style.color = "";
+
+      const subtitle = card.querySelector(".kpi-subtitle");
+      if (subtitle) subtitle.style.color = "";
+
+      const stats = card.querySelectorAll("div");
+      stats.forEach((div) => (div.style.color = ""));
+    }
+  });
+}
+// Nuclear option - forces ALL text to theme color
+function forceAllTextColors() {
+  const isDark = document
+    .getElementById("dashboardZone")
+    .classList.contains("dark-theme");
+  const color = isDark ? "#f1f5f9" : "#1e293b";
+
+  // Select EVERY element with text
+  const allElements = document.querySelectorAll("#dashboardZone *");
+
+  allElements.forEach((el) => {
+    if (el.children.length === 0 && el.textContent.trim()) {
+      el.style.color = color;
+    }
+  });
+}

@@ -1873,4 +1873,38 @@ p {
 #dashboardZone.dark-theme .chart-footer {
   color: #cbd5e1; /* Lighter color for footer text */
 }
+/* ===== KPI CARD DARK THEME ===== */
+#dashboardZone.dark-theme .chart-card {
+  /* This targets ALL chart cards, including KPI */
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
 
+/* Target KPI cards specifically */
+#dashboardZone.dark-theme .chart-card .kpi-card {
+  background: #334155 !important;
+}
+
+#dashboardZone.dark-theme .chart-card .kpi-value {
+  color: white !important;
+  font-weight: bold;
+}
+
+#dashboardZone.dark-theme .chart-card .kpi-subtitle {
+  color: #cbd5e1 !important;
+}
+
+/* Fix all text inside KPI cards */
+#dashboardZone.dark-theme .chart-card .kpi-card * {
+  color: #e2e8f0 !important;
+}
+
+#dashboardZone.dark-theme .kpi-card[style*="border-top: 5px solid #10b981"] {
+  border-top-color: #34d399 !important; /* Lighter green for dark mode */
+}
+
+/* Fix KPI emoji visibility */
+#dashboardZone.dark-theme .kpi-card span[style*="color: #666"] {
+  filter: brightness(1.5);
+}
