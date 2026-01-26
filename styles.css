@@ -1843,3 +1843,34 @@ p {
     font-size: 14px;
   }
 }
+/* ===== DARK THEME TEXT COLORS ===== */
+#dashboardZone.dark-theme {
+  color: #e2e8f0; /* Light text for everything */
+}
+
+/* Specific heading colors in dark mode */
+#dashboardZone.dark-theme h1 {
+  color: #ffffff; /* Pure white for h1 */
+}
+
+#dashboardZone.dark-theme h2 {
+  color: #f7fafc; /* Very light gray for h2 */
+}
+
+#dashboardZone.dark-theme h3 {
+  color: #f1f5f9; /* Light gray for h3 (chart titles) */
+}
+
+#dashboardZone.dark-theme h4 {
+  color: #e2e8f0; /* Slightly darker for h4 */
+}
+
+/* Chart card specific */
+#dashboardZone.dark-theme .chart-title {
+  color: #f1f5f9; /* Ensure chart titles are light */
+}
+
+#dashboardZone.dark-theme .chart-footer {
+  color: #cbd5e1; /* Lighter color for footer text */
+}
+
