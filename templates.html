@@ -1,366 +1,773 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Map Catalog - Data Visualization SaaS</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <style>
-        /* Reuse templates styles and add map-specific */
-        .catalog-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px 30px;
-        }
+      /* Reuse templates styles and add map-specific */
+      .catalog-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px 30px;
+      }
 
-        .catalog-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
-            border-radius: 16px;
-            color: white;
-        }
+      .catalog-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px;
+        background: linear-gradient(135deg, #3b82f6 0%, #9ca1b1 100%, #3b82f6 0%);
+        border-radius: 16px;
+        color: white;
+      }
 
-        .catalog-header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+      .catalog-header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
 
-        .catalog-header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto 20px;
-        }
+      .catalog-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto 20px;
+      }
 
-        .catalog-stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-        }
+      .category-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        overflow-x: auto;
+        padding: 10px 0;
+      }
 
-        .stat-item {
-            text-align: center;
-        }
+      .tab-btn {
+        padding: 10px 20px;
+        background: #f8f9fa;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-weight: 600;
+        color: #475569;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+      .tab-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
 
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
+      .maps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 25px;
+        margin-bottom: 50px;
+      }
 
-        .search-box {
-            max-width: 500px;
-            margin: 0 auto 30px;
-        }
+      .map-pack-card {
+        background: white;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: 1px solid #e9ecef;
+        position: relative;
+      }
 
-        .search-box input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
+      .map-pack-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
 
-        .search-box input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
+      .map-preview {
+        height: 180px;
+        background: #1e293b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
 
-        .category-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            overflow-x: auto;
-            padding: 10px 0;
-        }
+      .map-emoji {
+        font-size: 4rem;
+      }
 
-        .tab-btn {
-            padding: 10px 20px;
-            background: #f8f9fa;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-weight: 600;
-            color: #475569;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+      .map-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        z-index: 2;
+      }
 
-        .tab-btn.active {
-            background: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
-        }
+      .free-badge {
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        color: white;
+      }
 
-        .tab-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+      .map-info {
+        padding: 20px;
+      }
 
-        .maps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
+      .map-title {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .map-pack-card {
-            background: white;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid #e9ecef;
-            position: relative;
-        }
+      .map-description {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+      }
 
-        .map-pack-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
+      .map-features {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin: 15px 0;
+      }
 
-        .map-preview {
-            height: 180px;
-            background: #1e293b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
+      .map-features ul {
+        margin: 5px 0;
+        padding-left: 20px;
+      }
 
-        .map-emoji {
-            font-size: 4rem;
-        }
+      .map-features li {
+        margin: 3px 0;
+        position: relative;
+      }
 
-        .map-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            z-index: 2;
-        }
+      .map-features li:before {
+        content: "✓";
+        position: absolute;
+        left: -15px;
+        color: #10b981;
+      }
 
-        .free-badge {
-            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-            color: white;
-        }
+      .map-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
 
-        .pro-badge {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: #7c2d12;
-        }
+      .map-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
 
-        .map-size {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
+      .map-btn.primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+      }
 
-        .map-info {
-            padding: 20px;
-        }
+      .map-btn.secondary {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+      }
 
-        .map-title {
-            margin: 0;
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+      .user-maps-section {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 40px 0;
+      }
 
-        .map-description {
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
+      .upload-zone {
+        border: 2px dashed #cbd5e1;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 15px;
+      }
 
-        .map-features {
-            font-size: 0.85rem;
-            color: #64748b;
-            margin: 15px 0;
-        }
+      .upload-zone:hover {
+        border-color: #3b82f6;
+        background: #f0f7ff;
+      }
 
-        .map-features strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #475569;
-        }
+      /* Real map preview iframes */
+      .real-map-preview {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: none;
+      }
 
-        .map-features ul {
-            margin: 5px 0;
-            padding-left: 20px;
-        }
+      .map-preview.active .map-emoji {
+        display: none;
+      }
 
-        .map-features li {
-            margin: 3px 0;
-            position: relative;
-        }
-
-        .map-features li:before {
-            content: "✓";
-            position: absolute;
-            left: -15px;
-            color: #10b981;
-        }
-
-        .map-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .map-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .map-btn.primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-        }
-
-        .map-btn.secondary {
-            background: #f1f5f9;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-        }
-
-        .map-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .map-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .download-progress {
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 2px;
-            margin-top: 10px;
-            overflow: hidden;
-            display: none;
-        }
-
-        .download-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            color: #333;
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: #64748b;
-            font-size: 1.1rem;
-            grid-column: 1 / -1;
-        }
-
-        .user-maps-section {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 40px 0;
-        }
-
-        .upload-zone {
-            border: 2px dashed #cbd5e1;
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 15px;
-        }
-
-        .upload-zone:hover {
-            border-color: #3b82f6;
-            background: #f0f7ff;
-        }
-
-        .upload-zone.dragover {
-            border-color: #3b82f6;
-            background: #e6f0ff;
-        }
-
-        .info-box {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 30px 0;
-        }
-
-        .info-box h3 {
-            color: #0369a1;
-            margin-top: 0;
-        }
-
-        .info-box ul {
-            margin: 10px 0;
-            padding-left: 20px;
-        }
-
-        .info-box li {
-            margin: 5px 0;
-        }
+      .map-preview.active .real-map-preview {
+        display: block;
+      }
     </style>
-</head>
-<body class="dashboard-page">
-    <!-- ===== PROFESSIONAL NAVBAR (SAME AS OTHER PAGES) ===== -->
+  </head>
+  <body class="dashboard-page">
+    <!-- ===== PROFESSIONAL NAVBAR ===== -->
     <nav class="navbar">
-        <div class="navbar-container">
-            <!-- Logo & Brand -->
-            <a href="index.html" class="navbar-brand">
-                <img src="chartnow_logo_style5v2.png" alt="ChartNOW Logo">
-                <span class="brand-name"><span class="ai-text"></span></span>
-            </a>
+      <div class="navbar-container">
+        <!-- Logo & Brand -->
+        <a href="index.html" class="navbar-brand">
+          <img src="chartnow_logo_style5v2.png" alt="ChartNOW Logo" />
+          <span class="brand-name"><span class="ai-text"></span></span>
+        </a>
 
-            <!-- Navigation Links -->
-            <div class="navbar-links">
-                <a href="index.html" class="nav-link">Create Charts</a>
-                <a href="templates.html" class="nav-link">Templates</a>
-                <a href="map-catalog.html" class="nav-link active">Map
+        <!-- Navigation Links -->
+        <div class="navbar-links">
+          <a href="templates.html" class="nav-link active">Catalog</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+          <a href="#docs" class="nav-link">Docs</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+
+        <!-- User Section -->
+        <div class="navbar-user">
+          <div class="user-avatar">👤</div>
+          <div class="user-name">Guest</div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="catalog-container">
+      <!-- Header -->
+      <div class="catalog-header">
+        <h1>🗺️ Real Government & Organization Maps</h1>
+        <p>
+          Embed real, working maps from trusted sources. No API keys needed!
+        </p>
+        <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8">
+          <span
+            style="
+              background: white;
+              color: #3b82f6;
+              padding: 5px 15px;
+              border-radius: 20px;
+              display: inline-block;
+            "
+          >
+            ✅ All maps are live and interactive
+          </span>
+        </div>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button class="tab-btn active" onclick="filterMaps('all')">
+          🌍 All Maps
+        </button>
+        <button class="tab-btn" onclick="filterMaps('health')">
+          🏥 Health
+        </button>
+        <button class="tab-btn" onclick="filterMaps('environment')">
+          🌳 Environment
+        </button>
+        <button class="tab-btn" onclick="filterMaps('disaster')">
+          🌋 Disaster
+        </button>
+        <button class="tab-btn" onclick="filterMaps('economic')">
+          💰 Economic
+        </button>
+      </div>
+
+      <!-- Maps Grid -->
+      <div class="maps-grid" id="mapsGrid">
+        <!-- Maps will be loaded here by JavaScript -->
+      </div>
+
+      <!-- User Upload Section -->
+      <div class="user-maps-section">
+        <h2 style="margin-top: 0"></h2>
+        <p></p>
+
+  
+
+      <!-- contact us now -->
+      <div
+        style="
+          background: #f0f9ff;
+          border: 1px solid #bae6fd;
+          border-radius: 10px;
+          padding: 50px;
+          margin: 30px 0;
+          text-align: center;
+        "tive
+          widgets
+      >
+        <h3 style="color:#667eea 0%, #764ba2 100%; margin-top: 0
+        padding 5px ;
+        text-align: center;
+        ">Didn't find what you were looking for?</h3>
+        <button class="contact-btn" onclick="contact_us">
+          Contact Us Now
+    </div>
+    <style>.contact-btn{
+  border-radius: .25rem;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  padding-left: 25px;
+  padding-right: 25px;
+  color: #fff;
+  -webkit-clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  clip-path: polygon(0 0,0 0,100% 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,15px 100%,0 100%);
+  height: 40px;
+  font-size: 0.7rem;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  transition: .2s .1s;
+  background-image: linear-gradient(90deg,#9a86b0,#6220fb);
+  border: 0 solid;
+  overflow: hidden;
+  width: 20%;
+}
+
+button:hover {
+  cursor: pointer;
+  transition: all .3s ease-in;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+    
+    </style>
+    <script>
+      // REAL GOVERNMENT & ORGANIZATION MAPS
+      const realMaps = [
+        {
+          id: "cdc_covid",
+          title: "CDC COVID-19 Tracker",
+          emoji: "🦠",
+          category: "health",
+          description:
+            "Official US COVID-19 data from Centers for Disease Control",
+          source: "US Government",
+          url: "https://covid.cdc.gov/covid-data-tracker/#maps",
+          features: [
+            "Live US data",
+            "County-level details",
+            "Vaccination rates",
+          ],
+          embedCode:
+            '<iframe src="https://covid.cdc.gov/covid-data-tracker/#maps" width="100%" height="500" frameborder="0"></iframe>',
+        },
+        {
+          id: "usgs_earthquake",
+          title: "USGS Earthquake Map",
+          emoji: "🌋",
+          category: "disaster",
+          description:
+            "Live earthquake data from United States Geological Survey",
+          source: "USGS",
+          url: "https://earthquake.usgs.gov/earthquakes/map/",
+          features: ["Real-time quakes", "Magnitude filtering", "Last 30 days"],
+          embedCode:
+            '<iframe src="https://earthquake.usgs.gov/earthquakes/map/" width="100%" height="500" frameborder="0"></iframe>',
+        },
+        {
+          id: "noaa_weather",
+          title: "NOAA Weather Radar",
+          emoji: "🌧️",
+          category: "environment",
+          description:
+            "National Oceanic and Atmospheric Administration weather maps",
+          source: "NOAA",
+          url: "https://www.wpc.ncep.noaa.gov/national_radar/",
+          features: ["Live radar", "Storm tracking", "Weather alerts"],
+          embedCode:
+            '<iframe src="https://www.wpc.ncep.noaa.gov/national_radar/" width="100%" height="500" frameborder="0"></iframe>',
+        },
+        {
+          id: "europe_air",
+          title: "EU Air Quality Index",
+          emoji: "🌫️",
+          category: "environment",
+          description: "European Environment Agency air pollution monitoring",
+          source: "European Union",
+          url: "https://www.eea.europa.eu/data-and-maps/explore-interactive-maps/air-quality-index-map",
+          features: [
+            "EU-wide data",
+            "Pollutant levels",
+            "Health recommendations",
+          ],
+          embedCode:
+            '<iframe src="https://www.eea.europa.eu/data-and-maps/explore-interactive-maps/air-quality-index-map" width="100%" height="500" frameborder="0"></iframe>',
+        },
+        {
+          id: "nasa_fires",
+          title: "NASA Fire Map",
+          emoji: "🔥",
+          category: "disaster",
+          description:
+            "Global fire and thermal anomaly data from NASA satellites",
+          source: "NASA",
+          url: "https://firms.modaps.eosdis.nasa.gov/map/",
+          features: ["Satellite data", "Global coverage", "Last 24 hours"],
+          embedCode:
+            '<iframe src="https://firms.modaps.eosdis.nasa.gov/map/" width="100%" height="500" frameborder="0"></iframe>',
+        },
+        {
+          id: "world_population",
+          title: "UN Population Data",
+          emoji: "👥",
+          category: "economic",
+          description:
+            "United Nations World Population Prospects interactive maps",
+          source: "United Nations",
+          url: "https://population.un.org/wpp/Maps/",
+          features: [
+            "Country projections",
+            "Age demographics",
+            "Growth trends",
+          ],
+          embedCode:
+            '<iframe src="https://population.un.org/wpp/Maps/" width="100%" height="500" frameborder="0"></iframe>',
+        },
+        {
+          id: "worldbank_climate",
+          title: "World Bank Climate",
+          emoji: "🌡️",
+          category: "environment",
+          description: "World Bank climate change and development indicators",
+          source: "World Bank",
+          url: "https://climateknowledgeportal.worldbank.org/worldbank-climate-change-map",
+          features: ["Climate indicators", "Country profiles", "Risk analysis"],
+          embedCode:
+            '<iframe src="https://climateknowledgeportal.worldbank.org/worldbank-climate-change-map" width="100%" height="500" frameborder="0"></iframe>',
+        },
+        {
+          id: "openstreetmap",
+          title: "OpenStreetMap World",
+          emoji: "🗺️",
+          category: "all",
+          description:
+            "Free, editable world map created by volunteers worldwide",
+          source: "OpenStreetMap",
+          url: "https://www.openstreetmap.org/",
+          features: ["Free to use", "Community updated", "Global coverage"],
+          embedCode:
+            '<iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-180,-90,180,90&layer=mapnik" width="100%" height="500" frameborder="0"></iframe>',
+        },
+      ];
+
+      // Render all maps on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        renderMaps("all");
+
+        // Add click handlers for preview buttons
+        document.addEventListener("click", function (e) {
+          if (e.target.classList.contains("preview-btn")) {
+            const mapId = e.target.dataset.mapId;
+            showMapPreview(mapId);
+          }
+        });
+      });
+
+      // Render maps based on category
+      function renderMaps(category) {
+        const grid = document.getElementById("mapsGrid");
+        grid.innerHTML = "";
+
+        const maps =
+          category === "all"
+            ? realMaps
+            : realMaps.filter(
+                (map) => map.category === category || map.category === "all"
+              );
+
+        if (maps.length === 0) {
+          grid.innerHTML =
+            '<div class="no-results">No maps found in this category</div>';
+          return;
+        }
+
+        maps.forEach((map) => {
+          const card = createMapCard(map);
+          grid.appendChild(card);
+        });
+      }
+
+      // Create map card HTML
+      function createMapCard(map) {
+        const card = document.createElement("div");
+        card.className = "map-pack-card";
+
+        // Create preview iframe
+        const previewIframe =
+          map.id === "openstreetmap"
+            ? `<iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-20,35,50,60&layer=mapnik" class="real-map-preview"></iframe>`
+            : `<div class="map-emoji">${map.emoji}</div>`;
+
+        card.innerHTML = `
+          <div class="map-preview" id="preview-${map.id}">
+            ${previewIframe}
+            <span class="map-badge free-badge">LIVE</span>
+          </div>
+          <div class="map-info">
+            <h3 class="map-title">
+              ${map.emoji} ${map.title}
+            </h3>
+            <p class="map-description">${map.description}</p>
+            <div style="font-size: 0.8rem; color: #64748b; margin: 8px 0;">
+              Source: <strong>${map.source}</strong>
+            </div>
+            
+            <div class="map-features">
+              <strong>Features:</strong>
+              <ul>
+                ${map.features.map((feature) => `<li>${feature}</li>`).join("")}
+              </ul>
+            </div>
+            
+            <div class="map-actions">
+              <button class="map-btn primary" onclick="embedRealMap('${
+                map.id
+              }')">
+                🗺️ Embed Map
+              </button>
+              <button class="map-btn secondary preview-btn" data-map-id="${
+                map.id
+              }">
+                👁️ Live Preview
+              </button>
+            </div>
+          </div>
+        `;
+
+        return card;
+      }
+
+      // Filter maps by category
+      function filterMaps(category) {
+        // Update active tab
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        // Render filtered maps
+        renderMaps(category);
+      }
+
+      // Embed real map into dashboard
+      function embedRealMap(mapId) {
+        const map = realMaps.find((m) => m.id === mapId);
+        if (!map) return;
+
+        // Create map config for dashboard
+        const mapConfig = {
+          visualizationType: "embedded_map",
+          title: map.title,
+          mapType: "iframe",
+          mapUrl: map.url,
+          embedCode: map.embedCode,
+          source: map.source,
+          createdAt: new Date().toISOString(),
+        };
+
+        // Get existing dashboard charts
+        const savedCharts = JSON.parse(
+          localStorage.getItem("dashboardCharts") || "[]"
+        );
+        savedCharts.push(mapConfig);
+        localStorage.setItem("dashboardCharts", JSON.stringify(savedCharts));
+
+        // Show success message with option to go to dashboard
+        if (
+          confirm(
+            `✅ "${map.title}" added to dashboard!\n\nGo to dashboard now?`
+          )
+        ) {
+          window.location.href = "dashboard.html";
+        }
+      }
+
+      // Show live preview of map
+      function showMapPreview(mapId) {
+        const map = realMaps.find((m) => m.id === mapId);
+        if (!map) return;
+
+        const previewHTML = `
+          <div style="max-width: 90vw; max-height: 90vh; width: 900px; background: white; border-radius: 12px; overflow: hidden;">
+            <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+              <h3 style="margin: 0;">${map.emoji} ${map.title}</h3>
+              <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+            <div style="height: 500px;">
+              ${map.embedCode}
+            </div>
+            <div style="padding: 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; gap: 10px;">
+              <button onclick="embedRealMap('${mapId}')" style="flex: 1; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                Embed in Dashboard
+              </button>
+              <a href="${map.url}" target="_blank" style="padding: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; text-decoration: none; color: #475569; font-weight: 600;">
+                Open Original
+              </a>
+            </div>
+          </div>
+        `;
+
+        // Create modal
+        const modal = document.createElement("div");
+        modal.className = "modal";
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.7);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+          backdrop-filter: blur(3px);
+        `;
+        modal.innerHTML = previewHTML;
+        document.body.appendChild(modal);
+
+        // Close on background click
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) modal.remove();
+        });
+      }
+
+      // Handle file upload
+      function handleFileSelect(event) {
+        const file = event.target.files[0];
+        processUploadedFile(file);
+      }
+
+      function handleFileDrop(event) {
+        event.preventDefault();
+        event.currentTarget.classList.remove("dragover");
+        const file = event.dataTransfer.files[0];
+        processUploadedFile(file);
+      }
+
+      function processUploadedFile(file) {
+        if (!file) return;
+        alert(`File "${file.name}" uploaded. Map builder would open here.`);
+        // In production: parse file and open map builder with data
+      }
+
+      // Open simple map builder
+      function openMapBuilder() {
+        const builderHTML = `
+          <div style="max-width: 500px; padding: 30px; background: white; border-radius: 12px;">
+            <h3 style="margin-top: 0;">🛠️ Quick Map Builder</h3>
+            <p>Enter coordinates manually or upload a file:</p>
+            
+            <div style="margin: 20px 0;">
+              <label style="display: block; margin-bottom: 8px; font-weight: 600;">Map Title</label>
+              <input type="text" id="mapTitle" placeholder="My Custom Map" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
+              <div>
+                <label style="display: block; margin-bottom: 8px;">Center Latitude</label>
+                <input type="number" id="centerLat" value="40.7128" step="0.0001" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 8px;">Center Longitude</label>
+                <input type="number" id="centerLng" value="-74.0060" step="0.0001" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+              </div>
+            </div>
+            
+            <div style="margin: 20px 0;">
+              <label style="display: block; margin-bottom: 8px; font-weight: 600;">Zoom Level</label>
+              <input type="range" id="zoomLevel" min="1" max="18" value="12" style="width: 100%;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #64748b;">
+                <span>World</span><span>Street</span>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+              <button onclick="createCustomMap()" style="flex: 1; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                Create Map
+              </button>
+              <button onclick="this.closest('.modal').remove()" style="padding: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                Cancel
+              </button>
+            </div>
+          </div>
+        `;
+
+        const modal = document.createElement("div");
+        modal.className = "modal";
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+        `;
+        modal.innerHTML = builderHTML;
+        document.body.appendChild(modal);
+
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) modal.remove();
+        });
+      }
+
+      function createCustomMap() {
+        const title = document.getElementById("mapTitle").value || "Custom Map";
+        const lat =
+          parseFloat(document.getElementById("centerLat").value) || 40.7128;
+        const lng =
+          parseFloat(document.getElementById("centerLng").value) || -74.006;
+        const zoom = parseInt(document.getElementById("zoomLevel").value) || 12;
+
+        const mapConfig = {
+          visualizationType: "custom_map",
+          title: title,
+          mapType: "custom",
+          center: [lat, lng],
+          zoom: zoom,
+          createdAt: new Date().toISOString(),
+        };
+
+        const savedCharts = JSON.parse(
+          localStorage.getItem("dashboardCharts") || "[]"
+        );
+        savedCharts.push(mapConfig);
+        localStorage.setItem("dashboardCharts", JSON.stringify(savedCharts));
+
+        document.querySelector(".modal").remove();
+
+        if (confirm(`✅ "${title}" created!\n\nGo to dashboard to view it?`)) {
+          window.location.href = "dashboard.html";
+        }
+      }
+    </script>
+  </body>
+</html>
