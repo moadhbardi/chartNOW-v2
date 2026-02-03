@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service - ChartNOW</title>
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      body {
+        background: #f8fafc;
+        color: #1e293b;
+        line-height: 1.6;
+        padding-top: 70px;
+      }
+
+      /* ===== FIXED NAVBAR ===== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
+        padding: 0.8rem 2rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .navbar-brand img {
+        height: 80px; /* Match your logo container height */
+        width: auto; /* Maintain aspect ratio */
+        max-width: 400px; /* Optional: limit maximum width */
+        object-fit: contain; /* Keep image proportions */
+      }
+
+      /* If you want the image to be exactly the same size as the logo container */
+      .navbar-brand img {
+        height: 50px;
+        width: 180px; /* Square image */
+        border-radius: 10px; /* Match your logo container */
+        object-fit: cover; /* Crop if needed */
+      }
+
+      .brand-name {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+      }
+
+      .ai-text {
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .navbar-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.3s;
+        padding: 0.5rem 0;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        color: #3b82f6;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        transition: width 0.3s;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* ===== TERMS CONTENT ===== */
+      .terms-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .terms-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .terms-header h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .terms-header p {
+        color: #64748b;
+        font-size: 1.1rem;
+      }
+
+      .terms-content {
+        padding: 0 1rem;
+      }
+
+      .terms-section {
+        margin-bottom: 2.5rem;
+      }
+
+      .terms-section h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .terms-section h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #334155;
+        margin: 1.5rem 0 0.8rem;
+      }
+
+      .terms-section p,
+      .terms-section ul {
+        color: #475569;
+        margin-bottom: 1rem;
+        line-height: 1.7;
+      }
+
+      .terms-section ul {
+        padding-left: 2rem;
+      }
+
+      .terms-section li {
+        margin-bottom: 0.5rem;
+      }
+
+      /* ===== FOOTER ===== */
+      .site-footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        padding: 3rem 2rem 2rem;
+        margin-top: 4rem;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #60a5fa;
+      }
+
+      .footer-copyright {
+        font-size: 0.9rem;
+        color: #64748b;
+        padding-top: 2rem;
+        border-top: 1px solid #334155;
+      }
+      img[src="chartnow_white.png"] {
+        width: 150px;
+        height: 90px;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 0.8rem 1rem;
+        }
+
+        .terms-container {
+          margin: 2rem 1rem;
+          padding: 1.5rem;
+        }
+
+        .terms-header h1 {
+          font-size: 2.2rem;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-brand">
+          <img src="chartnow_logo_style5v2.png" alt="ChartNOW Logo" />
+        </a>
+        <div class="navbar-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== TERMS CONTENT ===== -->
+    <!-- ===== TERMS CONTENT ===== -->
+    <div class="terms-container">
+      <div class="terms-header">
+        <h1>Terms of Service</h1>
+        <p>Last Updated: January 31, 2026</p>
+      </div>
+
+      <div class="terms-content">
+        <div class="terms-section">
+          <h2>1. Acceptance of Terms</h2>
+          <p>
+            By accessing and using ChartNOW ("Service"), you accept and agree to
+            be bound by the terms and provision of this agreement.
+          </p>
+        </div>
+
+        <div class="terms-section">
+          <h2>2. Description of Service</h2>
+          <p>
+            ChartNOW is a web-based data visualization platform that allows
+            users to:
+          </p>
+          <ul>
+            <li>Upload CSV, Excel, and other data formats</li>
+            <li>Create interactive dashboards and charts</li>
+            <li>Use AI-powered chart suggestions</li>
+            <li>Export and share visualizations</li>
+          </ul>
+        </div>
+
+        <div class="terms-section">
+          <h2>3. User Accounts</h2>
+          <h3>3.1 Account Creation</h3>
+          <p>
+            You can experience basic chart creation without an account. For full
+            dashboard access and multiple charts, you must create an account
+            with accurate information.
+          </p>
+
+          <h3>3.2 Account Security</h3>
+          <p>
+            You are responsible for maintaining the confidentiality of your
+            password and account.
+          </p>
+
+          <h3>3.3 Account Termination</h3>
+          <p>
+            We reserve the right to terminate accounts for violations of these
+            terms.
+          </p>
+        </div>
+
+        <div class="terms-section">
+          <h2>4. Data and Privacy</h2>
+          <p>
+            We process your data according to our Privacy Policy. You retain
+            ownership of all data you upload.
+          </p>
+        </div>
+
+        <div class="terms-section">
+          <h2>5. Free Trial and Paid Plans</h2>
+
+          <h3>5.1 Free Trial (No Account Required)</h3>
+          <ul>
+            <li>Create and preview one chart with sample data</li>
+            <li>No login required for basic chart preview</li>
+            <li>Limited to single chart visualization</li>
+            <li>Cannot save or export without account</li>
+          </ul>
+
+          <h3>5.2 Free Plan (With Account)</h3>
+          <ul>
+            <li>Create up to 5 dashboards with multiple charts</li>
+            <li>Basic export options (PNG format)</li>
+            <li>Limited to 10MB file uploads</li>
+            <li>Community support</li>
+          </ul>
+
+          <h3>5.3 Paid Plans</h3>
+          <p>Monthly or annual subscriptions with additional features:</p>
+          <ul>
+            <li>Unlimited dashboards and charts</li>
+            <li>Advanced exports (PDF, CSV, Excel)</li>
+            <li>Priority customer support</li>
+            <li>Higher file upload limits (up to 1GB)</li>
+            <li>Team collaboration features</li>
+          </ul>
+
+          <h3>5.4 Cancellation</h3>
+          <p>
+            You may cancel your subscription at any time. No refunds for partial
+            months.
+          </p>
+        </div>
+
+        <div class="terms-section">
+          <h2>6. Acceptable Use</h2>
+          <p>You agree not to use the Service to:</p>
+          <ul>
+            <li>Upload illegal or harmful content</li>
+            <li>Violate intellectual property rights</li>
+            <li>Distribute malware or spam</li>
+            <li>Overload our systems</li>
+            <li>Attempt to bypass account limitations</li>
+          </ul>
+        </div>
+
+        <div class="terms-section">
+          <h2>7. Intellectual Property</h2>
+          <p>
+            ChartNOW software, logo, and design are owned by us. You own the
+            data you upload and visualizations you create.
+          </p>
+        </div>
+
+        <div class="terms-section">
+          <h2>8. Limitation of Liability</h2>
+          <p>
+            We are not liable for any indirect, incidental, or consequential
+            damages arising from your use of the Service.
+          </p>
+        </div>
+
+        <div class="terms-section">
+          <h2>9. Changes to Terms</h2>
+          <p>
+            We may modify these terms at any time. Continued use after changes
+            constitutes acceptance.
+          </p>
+        </div>
+
+        <div class="terms-section">
+          <h2>10. Contact Information</h2>
+          <p>
+            For questions about these Terms, contact us at: legal@chartnow.com
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <img
+            src="chartnow_white.png"
+            alt="ChartNOW Logo"
+            width="150"
+            height="90"
+          />
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="contact.html">Contact</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="footer-copyright">
+          © 2026 ChartNOW. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

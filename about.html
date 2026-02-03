@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About ChartNOW - Your Data Visualization Partner</title>
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      body {
+        background: #f8fafc;
+        color: #1e293b;
+        line-height: 1.6;
+        padding-top: 70px;
+      }
+
+      /* ===== FIXED NAVBAR ===== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
+        padding: 0.8rem 2rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .navbar-brand img {
+        height: 80px;
+        width: auto;
+        max-width: 400px;
+        object-fit: contain;
+      }
+
+      .navbar-brand img {
+        height: 50px;
+        width: 180px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .brand-name {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+      }
+
+      .ai-text {
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .navbar-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.3s;
+        padding: 0.5rem 0;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        color: #3b82f6;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        transition: width 0.3s;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* ===== ABOUT CONTENT ===== */
+      .about-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .about-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .about-header h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .about-header p {
+        color: #64748b;
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .about-content {
+        padding: 0 1rem;
+      }
+
+      .about-section {
+        margin-bottom: 2.5rem;
+      }
+
+      .about-section h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .about-section h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #334155;
+        margin: 1.5rem 0 0.8rem;
+      }
+
+      .about-section p,
+      .about-section ul {
+        color: #475569;
+        margin-bottom: 1rem;
+        line-height: 1.7;
+      }
+
+      .about-section ul {
+        padding-left: 2rem;
+      }
+
+      .about-section li {
+        margin-bottom: 0.5rem;
+        position: relative;
+        padding-left: 0.5rem;
+      }
+
+      .about-section li:before {
+        content: "▸";
+        color: #3b82f6;
+        margin-right: 0.5rem;
+      }
+
+      /* Stats Section */
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin: 3rem 0;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        border-radius: 15px;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #3b82f6;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 1rem;
+        color: #64748b;
+        font-weight: 600;
+      }
+
+      /* Team Section */
+      .team-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .team-member {
+        text-align: center;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 15px;
+        transition: transform 0.3s;
+      }
+
+      .team-member:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .member-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+      .member-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+      }
+
+      .member-role {
+        color: #3b82f6;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .member-bio {
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      /* CTA Section */
+      .about-cta {
+        text-align: center;
+        padding: 3rem;
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        border-radius: 20px;
+        color: white;
+        margin: 4rem 0 2rem;
+      }
+
+      .about-cta h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: white;
+      }
+
+      .about-cta p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ===== FOOTER ===== */
+      .site-footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        padding: 3rem 2rem 2rem;
+        margin-top: 4rem;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 2rem;
+      }
+
+      .footer-logo img {
+        height: 40px;
+        width: auto;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #60a5fa;
+      }
+
+      .footer-copyright {
+        font-size: 0.9rem;
+        color: #64748b;
+        padding-top: 2rem;
+        border-top: 1px solid #334155;
+      }
+
+      img[src="chartnow_white.png"] {
+        width: 150px;
+        height: 90px;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 0.8rem 1rem;
+        }
+
+        .about-container {
+          margin: 2rem 1rem;
+          padding: 1.5rem;
+        }
+
+        .about-header h1 {
+          font-size: 2.2rem;
+        }
+
+        .stats-container {
+          grid-template-columns: 1fr;
+          padding: 1.5rem;
+        }
+
+        .team-container {
+          grid-template-columns: 1fr;
+        }
+
+        .about-cta {
+          padding: 2rem 1rem;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-brand">
+          <img src="chartnow_logo_style5v2.png" alt="ChartNOW Logo" />
+        </a>
+        <div class="navbar-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== ABOUT CONTENT ===== -->
+    <div class="about-container">
+      <div class="about-header">
+        <h1>About ChartNOW</h1>
+        <p>
+          Transforming complex data into beautiful, actionable insights for
+          everyone
+        </p>
+      </div>
+
+      <div class="about-content">
+        <div class="about-section">
+          <h2>Our Story</h2>
+          <p>
+            ChartNOW was founded in 2023 by a team of data scientists and
+            designers who were frustrated with the complexity of traditional
+            data visualization tools. We noticed that while data was becoming
+            more important than ever, creating meaningful visualizations
+            remained a technical challenge reserved for experts.
+          </p>
+          <p>
+            Our mission was clear: create a platform that makes data
+            visualization accessible to everyone, regardless of technical
+            skills. We combined cutting-edge AI with an intuitive interface to
+            bridge the gap between raw data and meaningful insights.
+          </p>
+        </div>
+
+        <div class="about-section">
+          <h2>Our Mission</h2>
+          <p>
+            We believe that data should tell stories, not just sit in
+            spreadsheets. Our mission is to democratize data visualization by
+            providing tools that are:
+          </p>
+          <ul>
+            <li>
+              <strong>Accessible</strong> - No coding or design skills required
+            </li>
+            <li>
+              <strong>Intelligent</strong> - AI-powered suggestions for best
+              visualizations
+            </li>
+            <li>
+              <strong>Powerful</strong> - Professional-grade dashboards in
+              minutes
+            </li>
+            <li>
+              <strong>Collaborative</strong> - Share insights with teams and
+              clients
+            </li>
+          </ul>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-container">
+          <div class="stat-item">
+            <div class="stat-number">10,000+</div>
+            <div class="stat-label">Users Worldwide</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">500K+</div>
+            <div class="stat-label">Dashboards Created</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">99.9%</div>
+            <div class="stat-label">Uptime Reliability</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Customer Support</div>
+          </div>
+        </div>
+
+        <div class="about-section">
+          <h2>Our Technology</h2>
+          <p>
+            ChartNOW leverages advanced artificial intelligence and machine
+            learning algorithms to automatically analyze your data and suggest
+            the most effective visualization methods. Our platform supports:
+          </p>
+          <ul>
+            <li>
+              <strong>AI-Powered Chart Detection</strong> - Automatically
+              suggests optimal chart types
+            </li>
+            <li>
+              <strong>Real-Time Collaboration</strong> - Multiple users can edit
+              dashboards simultaneously
+            </li>
+            <li>
+              <strong>Enterprise Security</strong> - Bank-level encryption and
+              data protection
+            </li>
+            <li>
+              <strong>Multi-Format Support</strong> - CSV, Excel, JSON, SQL
+              databases, and APIs
+            </li>
+          </ul>
+        </div>
+
+        <!-- Team Section
+        <div class="about-section">
+          <h2>Our Team</h2>
+          <p>
+            We're a passionate team of data enthusiasts, designers, and
+            engineers committed to making data visualization better for
+            everyone.
+          </p>
+          <div class="team-container">
+            <div class="team-member">
+              <div class="member-avatar">AJ</div>
+              <div class="member-name">Alex Johnson</div>
+              <div class="member-role">CEO & Founder</div>
+              <div class="member-bio">
+                Former data scientist with 10+ years in data visualization and
+                AI research.
+              </div>
+            </div>
+
+            <div class="team-member">
+              <div class="member-avatar">MS</div>
+              <div class="member-name">Maria Sanchez</div>
+              <div class="member-role">Head of Product</div>
+              <div class="member-bio">
+                UI/UX expert focused on creating intuitive data experiences.
+              </div>
+            </div>
+
+            <div class="team-member">
+              <div class="member-avatar">DR</div>
+              <div class="member-name">David Chen</div>
+              <div class="member-role">Lead AI Engineer</div>
+              <div class="member-bio">
+                Machine learning specialist with PhD in Computer Science.
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="about-section">
+          <h2>Our Values</h2>
+          <h3>Simplicity First</h3>
+          <p>
+            We believe powerful tools should be simple to use. We remove
+            complexity so you can focus on insights.
+          </p>
+
+          <h3>Data Privacy</h3>
+          <p>
+            Your data belongs to you. We implement the highest security
+            standards and never sell your data.
+          </p>
+
+          <h3>Continuous Innovation</h3>
+          <p>
+            We constantly improve our platform based on user feedback and
+            emerging technologies.
+          </p>
+
+          <h3>Customer Success</h3>
+          <p>
+            We measure our success by your success. Our support team is always
+            ready to help.
+          </p>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="about-cta">
+          <h2>Ready to Transform Your Data?</h2>
+          <p>
+            Join thousands of businesses, analysts, and creators who use
+            ChartNOW to bring their data to life.
+          </p>
+          <a href="index.html" class="cta-button"
+            >Start Your Free Journey Now</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <img
+            src="chartnow_white.png"
+            alt="ChartNOW Logo"
+            width="150"
+            height="90"
+          />
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-copyright">
+          © 2026 ChartNOW. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
