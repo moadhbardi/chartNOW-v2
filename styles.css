@@ -120,7 +120,18 @@
     background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
   }
   
+  .feature-icon img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
   
+  .btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
   /* === PROFESSIONAL CHART TYPE SELECTOR === */
 .chart-type-buttons {
   display: grid;

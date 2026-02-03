@@ -44,7 +44,10 @@
     <div id="dashboardZone">
       <div class="dashboard-header">
         <div class="header-left">
-          <h1>📊 My Dashboard</h1>
+          <h1>
+            <img src="dashboard.png" alt="" width="20" height="20" /> My
+            Dashboard
+          </h1>
           <div class="data-source">
             Data source <span id="dataSourceInfo"></span>
             <span id="chartCount"></span>
@@ -58,24 +61,32 @@
             class="theme-toggle-btn"
             id="dashboardThemeToggle"
           >
-            🌙 Dark Mode
+            <img src="dark-mode.png" alt="" width="20" height="20" /> Dark Mode
           </button>
 
           <button onclick="smartExport()" class="smart-export-btn">
-            🚀 Smart Export
+            <img src="boost.png" alt="" width="20" height="20" />Smart Export
           </button>
 
           <div class="export-dropdown">
-            <button class="export-toggle">📤 Export</button>
+            <button class="export-toggle">
+              <img src="export-file.png" alt="" width="20" height="20" /> Export
+            </button>
             <div class="dropdown-menu">
-              <button onclick="exportAsPNG()">🖼️ PNG Image</button>
-              <button onclick="exportAsPDF()">📄 PDF Report</button>
-              <button onclick="exportAsJSON()">📊 JSON Data</button>
+              <button onclick="exportAsPNG()">
+                <img src="image.png" alt="" width="20" height="20" /> PNG Image
+              </button>
+              <button onclick="exportAsPDF()">
+                <img src="sheet.png" alt="" width="20" height="20" /> PDF Report
+              </button>
+              <button onclick="exportAsJSON()">
+                <img src="folder.png" alt="" width="20" height="20" /> JSON Data
+              </button>
             </div>
           </div>
 
           <button onclick="clearDashboard()" class="icon-btn" title="Clear all">
-            🗑️
+            <img src="recycle-bin.png" alt="" width="20" height="20" />
           </button>
           <a href="home.html" class="icon-btn" title="Back to editor">←</a>
         </div>
@@ -83,7 +94,9 @@
 
       <div id="dashboardGrid" class="dashboard-grid">
         <div class="empty-state">
-          <div class="empty-icon">📊</div>
+          <div class="empty-icon">
+            <img src="dashboard.png" alt="" width="20" height="20" />
+          </div>
           <h3>Your dashboard is empty</h3>
           <p>
             Go back to the editor, create charts, and click "Add to Dashboard"
@@ -94,7 +107,8 @@
             class="action-btn export-btn"
             style="text-decoration: none"
           >
-            🎨 Go Create Charts
+            <img src="dashboard.png" alt="" width="20" height="20" /> Go Create
+            Charts
           </a>
         </div>
       </div>

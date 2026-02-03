@@ -57,10 +57,15 @@
     <div class="container">
       <!-- Left Sidebar: Data & Variables -->
       <div class="sidebar">
-        <h3>📁 Data Source</h3>
+        <h3>
+          <img src="file.png" alt="" width="20" height="20" /> Data Source
+        </h3>
 
         <div class="drop-zone" id="dropZone">
-          <p>📂 Drag & Drop CSV or Excel file here</p>
+          <p>
+            <img src="file.png" alt="" width="20" height="20" /> Drag & Drop CSV
+            or Excel file here
+          </p>
           <p><small>or click to browse</small></p>
           <input
             type="file"
@@ -76,19 +81,28 @@
           <p><strong>Columns:</strong> <span id="colCount"></span></p>
         </div>
 
-        <h3>📊 Variables (Drag to use)</h3>
+        <h3>
+          <img src="dependant.png" alt="" width="20" height="20" /> Variables
+          (Drag to use)
+        </h3>
         <div class="variables-list" id="variablesList">
           <p style="color: #666; text-align: center">
             Upload a CSV or Excel file to see variables
           </p>
         </div>
 
-        <h3>🧮 Quick Stats</h3>
+        <h3>
+          <img src="description.png" alt="" width="20" height="20" /> Quick
+          Stats
+        </h3>
         <div id="quickStats"></div>
 
         <!-- AI SECTION -->
         <div class="ai-section">
-          <h3>🤖 AI Chart Assistant</h3>
+          <h3>
+            <img src="robot.png" alt="" width="20" height="20" />AI Chart
+            Assistant
+          </h3>
           <textarea
             id="ai-prompt"
             placeholder="Example: Create a pie chart of sales by region"
@@ -106,13 +120,20 @@
         <!-- Modern Export Panel -->
         <div class="export-panel">
           <div class="panel-header">
-            <h3><span class="export-icon">📤</span> Export & Share</h3>
+            <h3>
+              <span class="export-icon"
+                ><img src="export-file.png" alt="" width="20" height="20"
+              /></span>
+              Export & Share
+            </h3>
             <p class="panel-subtitle">Download visuals or share insights</p>
           </div>
 
           <div class="export-options-grid">
             <div class="export-option primary" onclick="exportAsPNG()">
-              <div class="export-icon">🖼️</div>
+              <div class="export-icon">
+                <img src="image.png" alt="" width="20" height="20" />
+              </div>
               <div class="export-details">
                 <strong>High-Res Image</strong>
                 <span>PNG (300 DPI)</span>
@@ -121,7 +142,9 @@
             </div>
 
             <div class="export-option" onclick="exportAsPDF()">
-              <div class="export-icon">📄</div>
+              <div class="export-icon">
+                <img src="sheet.png" alt="" width="20" height="20" />
+              </div>
               <div class="export-details">
                 <strong>PDF Report</strong>
                 <span>With title & description</span>
@@ -129,7 +152,9 @@
             </div>
 
             <div class="export-option" onclick="exportAsSVG()">
-              <div class="export-icon">✨</div>
+              <div class="export-icon">
+                <img src="svg.png" alt="" width="20" height="20" />
+              </div>
               <div class="export-details">
                 <strong>Vector Format</strong>
                 <span>SVG for editing</span>
@@ -137,7 +162,9 @@
             </div>
 
             <div class="export-option" onclick="exportAsCSV()">
-              <div class="export-icon">📊</div>
+              <div class="export-icon">
+                <img src="csv.png" alt="" width="20" height="20" />
+              </div>
               <div class="export-details">
                 <strong>Export Data</strong>
                 <span>CSV with all data</span>
@@ -147,7 +174,10 @@
 
           <div class="export-settings">
             <div class="settings-header">
-              <span>⚙️ Quick Settings</span>
+              <span
+                ><img src="setting.png" alt="" width="20" height="20" /> Quick
+                Settings</span
+              >
             </div>
             <div class="settings-grid">
               <div class="setting-item">
@@ -173,12 +203,14 @@
               </div>
               <!-- In chart controls section: -->
               <button onclick="addToDashboard()" class="add-to-dashboard-btn">
-                💾 Save to Dashboard
+                <img src="save.png" alt="" width="20" height="20" /> Save to
+                Dashboard
               </button>
 
               <!-- In sidebar section: -->
               <a href="dashboard.html" class="dashboard-btn" target="_blank">
-                📊 View Dashboard (<span id="dashboard-count">0</span> charts)
+                <img src="dashboard.png" alt="" width="20" height="20" /> View
+                Dashboard (<span id="dashboard-count">0</span> charts)
               </a>
             </div>
           </div>
@@ -189,26 +221,31 @@
       <div class="main-content">
         <!-- Chart Controls -->
         <div class="chart-controls">
-          <h3>⚙️ Chart Configuration</h3>
+          <h3>
+            <img src="settings.png" alt="" width="20" height="20" /> Chart
+            Configuration
+          </h3>
 
           <div class="chart-type-buttons">
             <button class="chart-btn" onclick="setChartType('bar')">
-              📊 Bar
+              <img src="growth.png" alt="" width="20" height="20" /> Bar
             </button>
             <button class="chart-btn" onclick="setChartType('line')">
-              📈 Line
+              <img src="line-chart.png" alt="" width="20" height="20" /> Line
             </button>
             <button class="chart-btn" onclick="setChartType('pie')">
-              🥧 Pie
+              <img src="pie-graph.png" alt="" width="20" height="20" /> Pie
             </button>
             <button class="chart-btn" onclick="setChartType('doughnut')">
-              🍩 Donut
+              <img src="donut-chart.png" alt="" width="20" height="20" /> Donut
             </button>
             <button class="chart-btn" onclick="setChartType('scatter')">
-              • Scatter
+              <img src="scatter-plot.png" alt="" width="20" height="20" />
+              Scatter
             </button>
             <button class="chart-btn" onclick="setChartType('radar')">
-              📡 Radar
+              <img src="analytic-graph.png" alt="" width="20" height="20" />
+              Radar
             </button>
             <button
               class="chart-btn"
@@ -257,7 +294,7 @@
               onclick="setChartType('map')"
               title="Geographic Map"
             >
-              🗺️ Map
+              <img src="location-mark.png" alt="" width="20" height="20" /> Map
             </button>
             <!-- KPI CARD BUTTON (ADDED HERE) -->
             <button
@@ -265,13 +302,17 @@
               onclick="setChartType('kpi')"
               title="KPI Card"
             >
-              🎯 KPI Card
+              <img src="performance.png" alt="" width="20" height="20" /> KPI
+              Card
             </button>
           </div>
 
           <!-- Map Controls (Hidden by default) -->
           <div id="mapControls" class="map-controls" style="display: none">
-            <h4>🗺️ Map Configuration</h4>
+            <h4>
+              <img src="location-mark.png" alt="" width="20" height="20" /> Map
+              Configuration
+            </h4>
             <div class="control-group">
               <label>Map Type</label>
               <div class="map-type-buttons">
@@ -401,7 +442,8 @@
 
             <div class="map-actions">
               <button onclick="generateKPICard()" class="generate-map-btn">
-                🎯 Generate KPI Card
+                <img src="performance.png" alt="" width="20" height="20" />
+                Generate KPI Card
               </button>
               <button onclick="resetKPICard()" class="secondary-btn">
                 Reset
@@ -453,7 +495,10 @@
               </select>
             </div>
 
-            <button onclick="generateChart()">🚀 Generate Chart</button>
+            <button onclick="generateChart()">
+              <img src="boost.png" alt="" width="20" height="20" /> Generate
+              Chart
+            </button>
             <button onclick="resetChart()" style="background: #6c757d">
               🔄 Reset
             </button>
@@ -462,7 +507,9 @@
 
         <!-- Color Controls Section -->
         <div class="color-controls">
-          <h4>🎨 Chart Colors</h4>
+          <h4>
+            <img src="color.png" alt="" width="20" height="20" /> Chart Colors
+          </h4>
           <div class="color-presets">
             <strong>Quick Themes:</strong>
             <div class="preset-buttons">
@@ -555,7 +602,9 @@
 
         <!-- Data Preview -->
         <div class="data-preview">
-          <h3>📋 Data Preview</h3>
+          <h3>
+            <img src="table.png" alt="" width="20" height="20" /> Data Preview
+          </h3>
           <div id="dataTable"></div>
         </div>
       </div>

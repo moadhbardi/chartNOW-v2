@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!savedCharts || savedCharts === "[]") {
     grid.innerHTML = `
         <div class="empty-state">
-          <div class="empty-icon">📊</div>
+          <div class="empty-icon"><img src="menu.png" alt="" width="20" height="20" /></div>
           <h3>No charts saved yet</h3>
           <p>Go back to editor, create charts, and click "Save to Dashboard".</p>
           <a href="index.html" class="action-btn" style="text-decoration: none; background: #667eea; color: white; padding: 10px 20px; border-radius: 8px;">
