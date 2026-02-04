@@ -1,4 +1,10 @@
 <html>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+<script src="https://cdn.auth0.com/js/auth0/9.0/auth0.min.js"></script>
+<!-- Auth0 Lock Widget -->
+<link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/css/locks/2.0/lock.min.css">
+<script src="https://cdn.auth0.com/js/lock/11.30/lock.min.js"></script>
   <head>
     <title>
       <img src="chartnow_small_logo.png" alt="" width="20" height="20" />Welcome
@@ -131,141 +137,210 @@
         min-height: 85vh;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;   
+align-items: flex-start;       
         padding: 6rem 2rem 4rem;
-        text-align: center;
+        text-align: left;
         position: relative;
       }
 
       /* Headline with gradient animation */
-      .hero-headline_index {
-        background: linear-gradient(
-          135deg,
-          #c452a8 0%,
-          #f13992 50%,
-          #e771cc 100%
-        );
-        font-size: 3.2rem;
-        font-weight: 900;
-        line-height: 1.1;
-        margin-bottom: 1rem;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        background-size: 200% auto;
-        animation: gradientShine 4s ease-in-out infinite;
-        letter-spacing: -0.5px;
-        max-width: 900px;
-        transform: translateY(-200xp);
-        text-align: center;
-        left: 100%;
-      }
+.hero-headline_index {
+  background: linear-gradient(135deg, #c452a8 0%, #f13992 50%, #e771cc 100%);
+  font-size: 3.2rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% auto;
+  animation: gradientShine 4s ease-in-out infinite;
+  letter-spacing: -0.5px;
+  max-width: 900px;
+  text-align: left;
+  margin-left: 0;
+  padding-left: 0;
+  width: 100%;
+  align-items: stretch
+}
 
-      /* Hero tagline */
-      .hero-tagline_index {
-        background: linear-gradient(
-          135deg,
-          #e262c2 0%,
-          #21e784 50%,
-          #68d7a9 100%
-        );
-        font-size: 1.5rem;
-        font-weight: 600;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        margin-bottom: 2.5rem;
-        max-width: 700xP;
-        line-height: 1.5;
-        opacity: 0.9;
-        transform: translateY(-200xp);
-        text-align: left;
-        text-align: left;
-      }
-      /* Button group */
-      .btn-group {
-        display: flex;
-        gap: 1.5rem;
-        margin-top: 2rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
+/* Hero tagline */
+.hero-tagline_index {
+  background: linear-gradient(135deg, #e262c2 0%, #21e784 50%, #68d7a9 100%);
+  font-size: 1.5rem;
+  font-weight: 600;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 2.5rem;
+  max-width: 700px;
+  line-height: 1.5;
+  opacity: 0.9;
+  text-align: left;
+  margin-left: 0;
+  padding-left: 0;
+  width: 100%;
+}
 
-      .btn {
-        border-radius: 0.25rem;
-        text-transform: uppercase;
-        font-style: normal;
-        font-weight: 400;
-        padding: 0 25px;
-        color: #fff;
-        -webkit-clip-path: polygon(
-          0 0,
-          0 0,
-          100% 0,
-          100% 0,
-          100% calc(100% - 15px),
-          calc(100% - 15px) 100%,
-          15px 100%,
-          0 100%
-        );
-        clip-path: polygon(
-          0 0,
-          0 0,
-          100% 0,
-          100% 0,
-          100% calc(100% - 15px),
-          calc(100% - 15px) 100%,
-          15px 100%,
-          0 100%
-        );
-        height: 40px;
-        font-size: 0.7rem;
-        line-height: 14px;
-        letter-spacing: 1.2px;
-        transition: 0.2s 0.1s;
-        background-image: linear-gradient(90deg, #9a86b0, #6220fb);
-        border: 0 solid;
-        overflow: hidden;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        cursor: pointer;
-        position: relative;
-      }
+/* Hero content container - aligns with navbar */
+.hero-content {
+  max-width: 100%;
+  
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+}
 
-      /* First button (Quick Start) - Keep your gradient */
-      .btn:first-child {
-        background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-      }
+/* Button group - left aligned */
+.btn-group {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: 0;
+  padding-left: 0;
+  width: 100%;
+}
 
-      /* Second button (Login) - White with purple border */
-      .btn:last-child {
-        background: white;
-        background-image: none;
-        color: #6220fb;
-        border: 2px solid #6220fb;
-      }
+.btn {
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  padding: 0 25px;
+  color: #fff;
+  -webkit-clip-path: polygon(
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    100% calc(100% - 15px),
+    calc(100% - 15px) 100%,
+    15px 100%,
+    0 100%
+  );
+  clip-path: polygon(
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    100% calc(100% - 15px),
+    calc(100% - 15px) 100%,
+    15px 100%,
+    0 100%
+  );
+  height: 40px;
+  font-size: 0.7rem;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  transition: 0.2s 0.1s;
+  background-image: linear-gradient(90deg, #9a86b0, #6220fb);
+  border: 0 solid;
+  overflow: hidden;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+}
 
-      .btn:hover {
-        cursor: pointer;
-        transition: all 0.3s ease-in;
-        padding-right: 30px;
-        padding-left: 30px;
-        transform: translateY(-2px);
-      }
+/* Signup/login button in navbar */
 
-      /* Specific hover for second button */
-      .btn:last-child:hover {
-        background: #6220fb;
-        color: white;
-        background-image: linear-gradient(90deg, #9a86b0, #6220fb);
-      }
+/* First button (Quick Start) - Keep your gradient */
+.btn:first-child {
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+/* Signup/login button in navbar - SEPARATE RULE */
+.singup-login_index {
+  background: white;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  padding-right: 30px;
+  padding-left: 30px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 1.2px;
+  text-decoration: none;
+  margin-left: 1rem;
+  transform: translateY(20xp);
+}
+/* Second button (Login) - White with purple border */
+.btn:last-child {
+  background: white;
+  background-image: none;
+  color: #6220fb;
+  border: 2px solid #6220fb;
+}
+
+.btn:hover {
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  padding-right: 30px;
+  padding-left: 30px;
+  transform: translateY(-2px);
+}
+
+/* Specific hover for second button */
+.btn:last-child:hover {
+  background: #6220fb;
+  color: white;
+  background-image: linear-gradient(90deg, #9a86b0, #6220fb);
+}
+
+/* Fix for hero section alignment */
+.hero-text {
+  background: url("background_girl_work.png") center/cover no-repeat;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+}
+
+/* Make sure content aligns with navbar container */
+.navbar-container,
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Fix typo in max-width */
+.hero-tagline_index {
+  max-width: 700px; /* Fixed typo from "700xP" */
+}
+
+/* Remove problematic transforms */
+.hero-headline_index {
+  transform: none; /* Removed translateY(-200xp) */
+}
+
+.hero-tagline_index {
+  transform: none; /* Removed translateY(-200xp) */
+}
+
+.singup-login_index {
+  transform: none; /* Removed translateY(-50px) */
+}
 
       /* ===== CONTENT SECTIONS ===== */
       section {
@@ -664,6 +739,9 @@
         <div class="navbar-links">
           <a href="about.html" class="nav-link">About</a>
           <a href="contact.html" class="nav-link">Contact</a>
+          <p class="singup-login_index"></p>
+          <div class="btn-group">
+            <a href="#signup" class="btn" onclick="showLoginModal()">Sign Up</a>
         </div>
       </div>
     </nav>
@@ -673,12 +751,12 @@
       <h1 class="hero-headline_index">
         Transform Your Data Into Visual Stories.
       </h1>
-      <p class="hero-tagline_index"></p>
+      <p class="hero-tagline_index"> AI-powered insights meet drag-and-drop simplicity. Create stunning dashboards in minutes, not hours.</p>
       <div class="btn-group">
         <a href="home2.html" class="btn"
           ><img src="boost.png" alt="" width="20" height="20" /> Quick Start</a
         >
-        <a href="login.html" class="btn">🔐 Or Login</a>
+        <a href="#signin" class="btn"onclick="showLoginModal()">🔐 Or Login</a>
       </div>
     </div>
 
@@ -804,4 +882,102 @@
       </div>
     </footer>
   </body>
+
+  script src="https://cdn.auth0.com/js/lock/11.30/lock.min.js"></script>
+<script>
+    // Auth0 configuration - SINGLE instance
+    var lock = new Auth0Lock(
+        'TnhdTG639shUFihvbDhhNUP3aHbOZc7Z',
+        'dev-us7wljgzswjly2sz.us.auth0.com',
+        {
+            auth: {
+                redirectUrl: 'http://localhost:5500/callback.html',
+                responseType: 'code',
+                params: {
+                    scope: 'openid email profile'
+                }
+            },
+            theme: {
+                primaryColor: '#3b82f6',
+                logo: 'chartnow_logo_png.png'
+            },
+            languageDictionary: {
+                title: ""
+            }
+        }
+    );
+
+    // Show login modal
+    function showLoginModal() {
+        lock.show();
+    }
+
+    // Check if user is logged in
+    function isLoggedIn() {
+        return localStorage.getItem("access_token") !== null;
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("id_token");
+        localStorage.removeItem("profile");
+        
+        // Redirect to Auth0 logout endpoint
+        window.location.href = 
+            "https://dev-us7wljgzswjly2sz.us.auth0.com/v2/logout?" +
+            "client_id=TnhdTG639shUFihvbDhhNUP3aHbOZc7Z&" +
+            "returnTo=http://localhost:5500";
+    }
+// Auth0 configuration for localhost
+var lock = new Auth0Lock(
+    'TnhdTG639shUFihvbDhhNUP3aHbOZc7Z',
+    'dev-us7wljgzswjly2sz.us.auth0.com',
+    {
+        auth: {
+            redirectUrl: 'http://localhost:5500/callback.html',  // Localhost
+            responseType: 'code',
+            params: {
+                scope: 'openid email profile'
+            }
+        },
+        theme: {
+            primaryColor: '#3b82f6',
+            logo: 'chartnow_logo_png.png'
+        },
+        languageDictionary: {
+            title: ""
+        }
+    }
+);
+
+// ... rest of your functions ...
+
+function logout() {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("profile");
+    
+    window.location.href = 
+        "https://dev-us7wljgzswjly2sz.us.auth0.com/v2/logout?" +
+        "client_id=TnhdTG639shUFihvbDhhNUP3aHbOZc7Z&" +
+        "returnTo=http://localhost:5500";  // Localhost
+}
+    // Show/hide login/logout buttons
+    function updateAuthUI() {
+        const loginBtn = document.getElementById("login-btn");
+        const logoutBtn = document.getElementById("logout-btn");
+        const userMenu = document.getElementById("user-menu");
+
+        if (isLoggedIn()) {
+            loginBtn.style.display = "none";
+            logoutBtn.style.display = "block";
+            userMenu.style.display = "block";
+        } else {
+            loginBtn.style.display = "block";
+            logoutBtn.style.display = "none";
+            userMenu.style.display = "none";
+        }
+    }
+</script>
 </html>

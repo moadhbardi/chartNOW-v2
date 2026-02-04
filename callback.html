@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Logging in...</title>
+    <script src="https://cdn.auth0.com/js/lock/11.30/lock.min.js"></script>
+  </head>
+  <body>
+    <script>
+      var lock = new Auth0Lock(
+        "TnhdTG639shUFihvbDhhNUP3aHbOZc7Z",
+        "dev-us7wljgzswjly2sz.us.auth0.com",
+        {
+          auth: {
+            redirectUrl: "http://localhost:5500/callback.html", // Localhost
+            responseType: "code",
+          },
+        }
+      );
+
+      lock.resumeHash(window.location.hash, function (err, authResult) {
+        if (err) {
+          console.error(err);
+          window.location.href = "/";
+          return;
+        }
+        localStorage.setItem("access_token", authResult.accessToken);
+        localStorage.setItem("id_token", authResult.idToken);
+        window.location.href = "home.html";
+      });
+    </script>
+  </body>
+</html>

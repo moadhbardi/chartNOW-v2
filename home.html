@@ -615,4 +615,48 @@
     <script src="ai_integ.js" defer></script>
     <script src="map-system.js" defer></script>
   </body>
+  Allowed Callback URLs: https://your-website.com/callback.html
+  https://your-website.com/ Allowed Logout URLs: https://your-website.com/
+  Allowed Web Origins: https://your-website.com
+
+  <!-- In your main site HTML files -->
+  <script>
+    // Check if user is logged in
+    function isLoggedIn() {
+      return localStorage.getItem("access_token") !== null;
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_token");
+      localStorage.removeItem("profile");
+
+      // Redirect to Auth0 logout endpoint
+      window.location.href =
+        "https://YOUR_DOMAIN.auth0.com/v2/logout?" +
+        "client_id=YOUR_CLIENT_ID&" +
+        "returnTo=hhttp://localhost:5500";
+    }
+
+    // Show/hide login/logout buttons
+    function updateAuthUI() {
+      const loginBtn = document.getElementById("login-btn");
+      const logoutBtn = document.getElementById("logout-btn");
+      const userMenu = document.getElementById("user-menu");
+
+      if (isLoggedIn()) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "block";
+        userMenu.style.display = "block";
+      } else {
+        loginBtn.style.display = "block";
+        logoutBtn.style.display = "none";
+        userMenu.style.display = "none";
+      }
+    }
+  </script>
+  Allowed Callback URLs: http://localhost:5500/callback.html
+  http://localhost:5500/ Allowed Logout URLs: http://localhost:5500/ Allowed Web
+  Origins: http://localhost:5500
 </html>

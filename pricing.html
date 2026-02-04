@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing - ChartNOW</title>
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      body {
+        background: #f8fafc;
+        color: #1e293b;
+        line-height: 1.6;
+        padding-top: 70px;
+      }
+
+      /* ===== FIXED NAVBAR ===== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
+        padding: 0.8rem 2rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .navbar-brand img {
+        height: 50px;
+        width: 180px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .navbar-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.3s;
+        padding: 0.5rem 0;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        color: #3b82f6;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        transition: width 0.3s;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* ===== PRICING HEADER ===== */
+      .pricing-header {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      }
+
+      .pricing-header h1 {
+        font-size: 3.2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .pricing-header p {
+        font-size: 1.2rem;
+        color: #64748b;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* ===== PRICING CONTAINER ===== */
+      .pricing-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+      }
+
+      /* ===== PRICING PLANS ===== */
+      .pricing-plans {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .pricing-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        transition: transform 0.3s;
+        position: relative;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .pricing-card.popular {
+        border: 2px solid #3b82f6;
+        background: linear-gradient(to bottom, #f8fafc, white);
+      }
+
+      .popular-badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .plan-name {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+      }
+
+      .plan-description {
+        color: #64748b;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+      }
+
+      .plan-price {
+        margin-bottom: 2rem;
+      }
+
+      .price-amount {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #1e293b;
+        line-height: 1;
+      }
+
+      .price-period {
+        color: #64748b;
+        font-size: 1rem;
+      }
+
+      .price-free {
+        color: #10b981;
+      }
+
+      /* ===== FEATURE LIST ===== */
+      .plan-features {
+        margin: 2rem 0;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+        color: #475569;
+      }
+
+      .feature-item.included {
+        color: #1e293b;
+        font-weight: 500;
+      }
+
+      .feature-item.excluded {
+        color: #94a3b8;
+        text-decoration: line-through;
+      }
+
+      .feature-icon {
+        color: #10b981;
+        font-weight: bold;
+        font-size: 1.2rem;
+        line-height: 1;
+        margin-top: 2px;
+      }
+
+      .feature-icon.excluded {
+        color: #94a3b8;
+      }
+
+      /* ===== PLAN BUTTONS ===== */
+      .plan-button {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        margin-top: 1.5rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #3b82f6;
+        border-color: #3b82f6;
+      }
+
+      .btn-secondary:hover {
+        background: #3b82f6;
+        color: white;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #64748b;
+        border-color: #e2e8f0;
+      }
+
+      .btn-outline:hover {
+        background: #f8fafc;
+        color: #1e293b;
+      }
+
+      /* ===== FAQ SECTION ===== */
+      .pricing-faq {
+        max-width: 900px;
+        margin: 5rem auto;
+        padding: 0 1rem;
+      }
+
+      .pricing-faq h2 {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 3rem;
+        color: #1e293b;
+      }
+
+      .faq-item {
+        margin-bottom: 1.5rem;
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .faq-question {
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+      }
+
+      .faq-answer {
+        color: #64748b;
+        line-height: 1.6;
+      }
+
+      /* ===== FOOTER ===== */
+      .site-footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        padding: 3rem 2rem 2rem;
+        margin-top: 4rem;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 2rem;
+      }
+
+      .footer-logo img {
+        height: 40px;
+        width: auto;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #60a5fa;
+      }
+
+      .footer-copyright {
+        font-size: 0.9rem;
+        color: #64748b;
+        padding-top: 2rem;
+        border-top: 1px solid #334155;
+      }
+
+      img[src="chartnow_white.png"] {
+        width: 150px;
+        height: 90px;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 0.8rem 1rem;
+        }
+
+        .pricing-header h1 {
+          font-size: 2.5rem;
+        }
+
+        .pricing-plans {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-brand">
+          <img src="chartnow_logo_style5v2.png" alt="ChartNOW Logo" />
+        </a>
+        <div class="navbar-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="pricing.html" class="nav-link">Pricing</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== PRICING HEADER ===== -->
+    <section class="pricing-header">
+      <h1>Simple, Transparent Pricing</h1>
+      <p>
+        Start visualizing your data instantly. No credit card required for free
+        plans.
+      </p>
+    </section>
+
+    <!-- ===== PRICING PLANS ===== -->
+    <div class="pricing-container">
+      <div class="pricing-plans">
+        <!-- Plan 1: Free Trial (No Account) -->
+        <div class="pricing-card">
+          <div class="plan-name">Free Trial</div>
+          <div class="plan-description">Try ChartNOW without signing up</div>
+
+          <div class="plan-price">
+            <div class="price-amount price-free">$0</div>
+            <div class="price-period">forever</div>
+          </div>
+
+          <div class="plan-features">
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Create & preview single charts</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>No account required</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>AI-powered chart suggestions</span>
+            </div>
+            <div class="feature-item excluded">
+              <span class="feature-icon excluded">✗</span>
+              <span>Save or export charts</span>
+            </div>
+            <div class="feature-item excluded">
+              <span class="feature-icon excluded">✗</span>
+              <span>Create dashboards</span>
+            </div>
+            <div class="feature-item excluded">
+              <span class="feature-icon excluded">✗</span>
+              <span>Multiple chart types</span>
+            </div>
+          </div>
+
+          <a href="home2.html" class="plan-button btn-secondary"
+            >Try for Free</a
+          >
+        </div>
+
+        <!-- Plan 2: Free Plan (With Account) -->
+        <div class="pricing-card popular">
+          <div class="popular-badge">Most Popular</div>
+          <div class="plan-name">Free Plan</div>
+          <div class="plan-description">Full dashboard access with account</div>
+
+          <div class="plan-price">
+            <div class="price-amount price-free">$0</div>
+            <div class="price-period">forever</div>
+          </div>
+
+          <div class="plan-features">
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Up to 5 dashboards</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Multiple charts per dashboard</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Basic export (PNG)</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>10MB file upload limit</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Community support</span>
+            </div>
+            <div class="feature-item excluded">
+              <span class="feature-icon excluded">✗</span>
+              <span>Advanced exports (PDF, CSV)</span>
+            </div>
+          </div>
+
+          <a
+            href="index.html"
+            class="plan-button btn-primary"
+            onclick="showLoginModal()"
+            >Sign Up Free</a
+          >
+        </div>
+
+        <!-- Plan 3: Pro Plan -->
+        <div class="pricing-card">
+          <div class="plan-name">Pro Plan</div>
+          <div class="plan-description">For power users and teams</div>
+
+          <div class="plan-price">
+            <div class="price-amount">$9.99</div>
+            <div class="price-period">per month</div>
+          </div>
+
+          <div class="plan-features">
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Unlimited dashboards</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Advanced exports (PDF, CSV, Excel)</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>1GB file upload limit</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Priority support</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Team collaboration</span>
+            </div>
+            <div class="feature-item included">
+              <span class="feature-icon">✓</span>
+              <span>Custom branding</span>
+            </div>
+          </div>
+
+          <a
+            href="index.html"
+            class="plan-button btn-secondary"
+            onclick="showLoginModal()"
+            >Start Pro Trial</a
+          >
+        </div>
+      </div>
+
+      <!-- ===== FAQ SECTION ===== -->
+      <div class="pricing-faq">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            What's the difference between Free Trial and Free Plan?
+          </div>
+          <div class="faq-answer">
+            Free Trial lets you create single charts without an account but you
+            can't save them. Free Plan requires an account and gives you full
+            dashboard access with saving capabilities.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I upgrade from Free Trial to Free Plan?
+          </div>
+          <div class="faq-answer">
+            Yes! Simply create an account and all your trial charts will be
+            saved to your new account automatically.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">What payment methods do you accept?</div>
+          <div class="faq-answer">
+            We accept all major credit cards (Visa, MasterCard, American
+            Express), PayPal, and bank transfers for annual plans.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Is there a free trial for the Pro Plan?
+          </div>
+          <div class="faq-answer">
+            Yes! All Pro Plan features are available for 14 days with no credit
+            card required.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Can I cancel my subscription anytime?</div>
+          <div class="faq-answer">
+            Absolutely. You can cancel your Pro subscription at any time and
+            continue using the Free Plan features.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <img
+            src="chartnow_white.png"
+            alt="ChartNOW Logo"
+            width="150"
+            height="90"
+          />
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="contact.html">Contact</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="footer-copyright">
+          © 2026 ChartNOW. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Simple Login Modal Script -->
+    <script>
+      function showLoginModal() {
+        alert(
+          'Login functionality coming soon! For now, please use the "Try for Free" button to explore ChartNOW.'
+        );
+        // You can replace this with your actual Auth0 modal later
+      }
+    </script>
+  </body>
+</html>
