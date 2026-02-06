@@ -189,28 +189,7 @@
   box-shadow: 0 4px 14px rgba(102, 126, 234, 0.35);
 }
 
-/* Special style for "Pro" feature buttons */
-.chart-btn.pro {
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-  color: #7c2d12;
-  border: 1px solid #fdba74;
-  position: relative;
-}
 
-/* "PRO" badge for premium features */
-.chart-btn.pro::after {
-  content: "PRO";
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #ea580c;
-  font-size: 0.6rem;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 10px;
-  letter-spacing: 0.5px;
-}
 
 /* Tooltip for chart type descriptions */
 .chart-btn {

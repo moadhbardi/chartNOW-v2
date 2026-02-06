@@ -247,33 +247,14 @@
               <img src="analytic-graph.png" alt="" width="20" height="20" />
               Radar
             </button>
-            <button
-              class="chart-btn"
-              onclick="setChartType('area')"
-              title="Area Chart"
-            >
-              ▀ Area
+            <button class="chart-btn" onclick="setChartType('stackedBar')">
+              ▊ Stacked Bar
             </button>
-            <button
-              class="chart-btn"
-              onclick="setChartType('bubble')"
-              title="Bubble Chart"
-            >
-              🫧 Bubble
+            <button class="chart-btn" onclick="setChartType('horizontalBar')">
+              ▬ Horizontal Bar
             </button>
-            <button
-              class="chart-btn"
-              onclick="setChartType('polarArea')"
-              title="Polar Area Chart"
-            >
-              🔄 Polar
-            </button>
-            <button
-              class="chart-btn pro"
-              onclick="setChartType('treemap')"
-              title="Treemap"
-            >
-              ⊞ Treemap
+            <button class="chart-btn" onclick="setChartType('groupedBar')">
+              ░ Grouped Bar
             </button>
             <button
               class="chart-btn pro"
@@ -282,13 +263,7 @@
             >
               🧱 Heatmap
             </button>
-            <button
-              class="chart-btn pro"
-              onclick="setChartType('boxplot')"
-              title="Box Plot"
-            >
-              📦 Box Plot
-            </button>
+
             <button
               class="chart-btn"
               onclick="setChartType('map')"
@@ -615,9 +590,9 @@
     <script src="ai_integ.js" defer></script>
     <script src="map-system.js" defer></script>
   </body>
-  Allowed Callback URLs: https://your-website.com/callback.html
+  <!--- Allowed Callback URLs: https://your-website.com/callback.html
   https://your-website.com/ Allowed Logout URLs: https://your-website.com/
-  Allowed Web Origins: https://your-website.com
+  Allowed Web Origins: https://your-website.com-->
 
   <!-- In your main site HTML files -->
   <script>
@@ -656,7 +631,7 @@
       }
     }
   </script>
-  Allowed Callback URLs: http://localhost:5500/callback.html
+  <!-- Allowed Callback URLs: http://localhost:5500/callback.html
   http://localhost:5500/ Allowed Logout URLs: http://localhost:5500/ Allowed Web
-  Origins: http://localhost:5500
+  Origins: http://localhost:5500-->
 </html>
