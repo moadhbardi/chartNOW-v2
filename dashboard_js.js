@@ -1135,3 +1135,222 @@ function renderDashboardChart(config, index) {
     );
   }
 }
+// In dashboard_js.js - UPDATE the renderDashboardChart function:
+
+function renderDashboardChart(config, index) {
+  const canvas = document.getElementById(`dashboardChart-${index}`);
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+
+  // CHECK IF DARK THEME IS ACTIVE
+  const isDarkTheme = document
+    .getElementById("dashboardZone")
+    .classList.contains("dark-theme");
+
+  // SET COLORS BASED ON THEME
+  const textColor = isDarkTheme ? "#e2e8f0" : "#1e293b";
+  const gridColor = isDarkTheme
+    ? "rgba(255, 255, 255, 0.1)"
+    : "rgba(0, 0, 0, 0.1)";
+  const tickColor = isDarkTheme
+    ? "rgba(255, 255, 255, 0.7)"
+    : "rgba(0, 0, 0, 0.7)";
+
+  // Check if we have saved chart data
+  const hasChartData =
+    config.chartData && config.chartData.labels && config.chartData.datasets;
+
+  if (hasChartData) {
+    // Use the saved chart data
+    const chartType = config.chartOptions?.type || config.type || "bar";
+
+    const chartConfig = {
+      type: chartType,
+      data: config.chartData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: config.title || `Chart ${index + 1}`,
+            font: { size: 14 },
+            color: textColor, // ADD THIS
+          },
+          legend: {
+            position: "bottom",
+            labels: {
+              color: textColor, // ADD THIS
+            },
+          },
+        },
+        // Apply special options for new chart types
+        indexAxis: config.chartOptions?.indexAxis || "x",
+        scales: {
+          ...(config.chartOptions?.scales || {}),
+          // OVERRIDE WITH DARK THEME COLORS
+          x: {
+            ...(config.chartOptions?.scales?.x || {}),
+            ticks: {
+              color: tickColor, // X-axis text color
+            },
+            grid: {
+              color: gridColor, // X-axis grid lines
+            },
+          },
+          y: {
+            ...(config.chartOptions?.scales?.y || {}),
+            ticks: {
+              color: tickColor, // Y-axis text color
+            },
+            grid: {
+              color: gridColor, // Y-axis grid lines
+            },
+          },
+        },
+      },
+    };
+
+    // Special handling for heatmap (no legend)
+    if (config.type === "heatmap") {
+      chartConfig.options.plugins.legend.display = false;
+    }
+
+    new Chart(ctx, chartConfig);
+    console.log(
+      `✅ Rendered ${config.type} chart with ${
+        isDarkTheme ? "dark" : "light"
+      } theme`
+    );
+  } else {
+    // Fallback: Generate sample data (for backward compatibility)
+    const { labels, data, colors } = generateSampleData(config.type);
+
+    const chartConfig = {
+      type:
+        config.type === "horizontalBar"
+          ? "bar"
+          : config.type === "stackedBar"
+          ? "bar"
+          : config.type === "groupedBar"
+          ? "bar"
+          : config.type === "heatmap"
+          ? "bar"
+          : config.type,
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: config.yAxis?.[0] || "Values",
+            data: data,
+            backgroundColor: config.colors || colors,
+            borderColor: (config.colors || colors).map((c) =>
+              c.replace("0.7", "1")
+            ),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: config.title || `Chart ${index + 1}`,
+            font: { size: 14 },
+            color: textColor, // ADD THIS
+          },
+          legend: {
+            position: "bottom",
+            labels: {
+              color: textColor, // ADD THIS
+            },
+          },
+        },
+        // Special options for new chart types
+        indexAxis: config.type === "horizontalBar" ? "y" : "x",
+        scales: {
+          x: {
+            stacked: config.type === "stackedBar",
+            title: {
+              display: true,
+              text: config.xAxis || "X Axis",
+              color: textColor, // ADD THIS
+            },
+            ticks: {
+              color: tickColor, // X-axis text
+            },
+            grid: {
+              color: gridColor, // X-axis grid lines
+            },
+          },
+          y: {
+            stacked: config.type === "stackedBar",
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: config.yAxis?.join(" / ") || "Y Axis",
+              color: textColor, // ADD THIS
+            },
+            ticks: {
+              color: tickColor, // Y-axis text
+            },
+            grid: {
+              color: gridColor, // Y-axis grid lines
+            },
+          },
+        },
+      },
+    };
+
+    // Special handling for heatmap
+    if (config.type === "heatmap") {
+      chartConfig.options.plugins.legend.display = false;
+    }
+
+    new Chart(ctx, chartConfig);
+    console.log(
+      `⚠️ Rendered ${config.type} chart with sample data (no saved data)`
+    );
+  }
+}
+// Add this function to dashboard_js.js
+function redrawChartsOnThemeChange() {
+  const dashboardZone = document.getElementById("dashboardZone");
+
+  // Watch for theme changes
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === "class") {
+        console.log("Theme changed, redrawing charts...");
+        // Destroy and redraw all charts
+        setTimeout(redrawAllCharts, 100);
+      }
+    });
+  });
+
+  observer.observe(dashboardZone, { attributes: true });
+}
+
+function redrawAllCharts() {
+  // Destroy existing charts
+  Chart.instances.forEach((chart) => chart.destroy());
+
+  // Reload and redraw all charts
+  const savedCharts = localStorage.getItem("dashboardCharts");
+  if (savedCharts) {
+    const charts = JSON.parse(savedCharts);
+    charts.forEach((config, index) => {
+      if (config.visualizationType === "chart") {
+        renderDashboardChart(config, index);
+      }
+    });
+  }
+}
+
+// Call this when dashboard loads
+document.addEventListener("DOMContentLoaded", function () {
+  redrawChartsOnThemeChange();
+});

@@ -1898,3 +1898,27 @@ p {
 #dashboardZone.dark-theme .kpi-card span[style*="color: #666"] {
   filter: brightness(1.5);
 }
+/* ===== CHART CANVAS DARK THEME FIX ===== */
+
+#dashboardZone.dark-theme .chart-card .chart-footer div {
+  color: #e2e8f0 !important;  /* Light text for dark theme */
+  opacity: 0.9;
+}
+
+/* Target the specific text that shows variables */
+#dashboardZone.dark-theme .chart-card .chart-footer div:nth-child(2) {
+  color: #5497e9 !important;  /* Slightly lighter for variable names */
+  font-size: 0.9em;
+}
+
+/* Chart type indicators (📊, 🗺️, 🎯) */
+#dashboardZone.dark-theme .chart-footer span:first-child {
+  color: #49eba5 !important;  /* Pure white for icons */
+  filter: brightness(1.5);    /* Make emojis brighter */
+}
+
+/* Date text in footer */
+#dashboardZone.dark-theme .chart-footer span:last-child {
+  color: #69ebbb !important;  /* Muted gray-blue for dates */
+  opacity: 0.9;
+}
